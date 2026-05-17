@@ -1,0 +1,66 @@
+const MPs = [
+  { name: 'Wes Streeting', area: 'Ilford North', party: 'Lab', received: 4, responded: 4 },
+  { name: 'Jeremy Hunt', area: 'Godalming', party: 'Con', received: 4, responded: 3 },
+  { name: 'Ed Davey', area: 'Kingston', party: 'LD', received: 4, responded: 2 },
+  { name: 'Kemi Badenoch', area: 'NW Essex', party: 'Con', received: 4, responded: 0 },
+  { name: 'Nigel Farage', area: 'Clacton', party: 'Ref', received: 4, responded: 0 },
+]
+
+export default function MPTracker() {
+  return (
+    <section style={{ background: '#f5f3ee', padding: '4rem 1.5rem', borderBottom: '1px solid #e8e4dc' }}>
+      <div style={{ maxWidth: 900, margin: '0 auto' }}>
+        <div style={{ textAlign: 'center', marginBottom: 32 }}>
+          <div style={{ fontSize: 11, color: '#888074', letterSpacing: '0.12em', textTransform: 'uppercase', marginBottom: 8, fontFamily: 'var(--sans)' }}>Accountability</div>
+          <h2 style={{ fontFamily: 'var(--serif)', fontSize: 'clamp(22px, 4vw, 32px)', fontWeight: 700, color: '#1a1814', marginBottom: 8 }}>
+            MP Response Tracker
+          </h2>
+          <p style={{ fontSize: 15, color: '#888074', fontFamily: 'var(--sans)', maxWidth: 520, margin: '0 auto' }}>
+            Every MP who receives a Grey Parliament verdict is tracked here. Publicly. Permanently.
+            Silence is noted. And published.
+          </p>
+        </div>
+
+        <div style={{ background: '#fff', borderRadius: 12, border: '1px solid #e8e4dc', overflow: 'hidden', marginBottom: 20 }}>
+          <table style={{ width: '100%', borderCollapse: 'collapse', fontFamily: 'var(--sans)' }}>
+            <thead>
+              <tr style={{ background: '#1a1814' }}>
+                {['MP', 'Constituency', 'Party', 'Received', 'Responses', 'Score'].map(h => (
+                  <th key={h} style={{ padding: '10px 14px', fontSize: 11, color: '#888074', textAlign: 'left', letterSpacing: '0.06em', textTransform: 'uppercase', fontWeight: 400 }}>{h}</th>
+                ))}
+              </tr>
+            </thead>
+            <tbody>
+              {MPs.map((mp, i) => {
+                const score = Math.round((mp.responded / mp.received) * 100)
+                const scoreColor = score === 100 ? '#166534' : score >= 50 ? '#92400e' : '#991b1b'
+                return (
+                  <tr key={i} style={{ borderBottom: '1px solid #f0ede8' }}>
+                    <td style={{ padding: '12px 14px', fontSize: 14, fontWeight: 500, color: '#1a1814' }}>{mp.name}</td>
+                    <td style={{ padding: '12px 14px', fontSize: 13, color: '#888074' }}>{mp.area}</td>
+                    <td style={{ padding: '12px 14px', fontSize: 12, color: '#888074' }}>{mp.party}</td>
+                    <td style={{ padding: '12px 14px', fontSize: 13, color: '#1a1814' }}>{mp.received}</td>
+                    <td style={{ padding: '12px 14px', fontSize: 13 }}>
+                      {mp.responded === 0
+                        ? <span style={{ color: '#991b1b' }}>✗ None</span>
+                        : mp.responded === mp.received
+                          ? <span style={{ color: '#166534' }}>✓ All {mp.responded}</span>
+                          : <span style={{ color: '#92400e' }}>⟳ {mp.responded} of {mp.received}</span>
+                      }
+                    </td>
+                    <td style={{ padding: '12px 14px', fontSize: 14, fontWeight: 500, color: scoreColor }}>{score}%</td>
+                  </tr>
+                )
+              })}
+            </tbody>
+          </table>
+        </div>
+
+        <div style={{ background: '#1a1814', borderRadius: 10, padding: '1.25rem', fontSize: 13, color: '#888074', fontFamily: 'var(--sans)', lineHeight: 1.7 }}>
+          MPs scoring 0% after 8 verdicts are named in our monthly press release to national political journalists.
+          No party affiliation. No editorial spin. Just the numbers.
+        </div>
+      </div>
+    </section>
+  )
+}

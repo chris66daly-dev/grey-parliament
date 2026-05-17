@@ -1,0 +1,42 @@
+export default function HowItWorks() {
+  const steps = [
+    { day: 'Monday', icon: '📢', title: 'The question drops', body: 'Did you hear the latest from the House of Parliament? Every Monday a new question lands — drawn from what Parliament actually did this week.' },
+    { day: 'Tue–Fri', icon: '💬', title: 'The adults debate', body: 'Forums, regional chat, reaction wall. Free members have their say. Official members cast their verdict. The discussion builds.' },
+    { day: 'Sunday', icon: '🗳', title: 'Vote closes', body: 'Midnight Sunday the verdict is locked. Every official member\'s vote counted. Every result published publicly — no editing, no filtering.' },
+    { day: 'Monday 8am', icon: '✉', title: 'Parliament receives it', body: 'Formal verdict letter to every relevant MP and minister. Member count attached. Formal response demanded within 14 days.' },
+    { day: 'Weekly', icon: '📰', title: 'Newsletter to all members', body: 'Results, MP responses — or silence. Next week\'s question. The reaction wall\'s best lines. Sent to every member, free and paying.' },
+  ]
+
+  return (
+    <section style={{ background: '#e8e4dc', padding: '4rem 1.5rem', borderBottom: '1px solid #c8c4bc' }}>
+      <div style={{ maxWidth: 900, margin: '0 auto' }}>
+        <div style={{ textAlign: 'center', marginBottom: 40 }}>
+          <div style={{ fontSize: 11, color: '#888074', letterSpacing: '0.12em', textTransform: 'uppercase', marginBottom: 8, fontFamily: 'var(--sans)' }}>How it works</div>
+          <h2 style={{ fontFamily: 'var(--serif)', fontSize: 'clamp(24px, 4vw, 36px)', fontWeight: 700, color: '#1a1814' }}>
+            Every week. Like clockwork. Whether they like it or not.
+          </h2>
+        </div>
+
+        <div style={{ display: 'grid', gridTemplateColumns: 'repeat(auto-fit, minmax(160px, 1fr))', gap: 16 }}>
+          {steps.map((s, i) => (
+            <div key={i} style={{ background: '#f5f3ee', borderRadius: 10, padding: '1.25rem', border: '1px solid #c8c4bc' }}>
+              <div style={{ fontSize: 11, color: '#888074', letterSpacing: '0.1em', textTransform: 'uppercase', marginBottom: 8, fontFamily: 'var(--sans)' }}>{s.day}</div>
+              <div style={{ fontSize: 24, marginBottom: 8 }}>{s.icon}</div>
+              <div style={{ fontFamily: 'var(--serif)', fontSize: 16, fontWeight: 700, color: '#1a1814', marginBottom: 8 }}>{s.title}</div>
+              <div style={{ fontSize: 13, color: '#888074', lineHeight: 1.6, fontFamily: 'var(--sans)' }}>{s.body}</div>
+            </div>
+          ))}
+        </div>
+
+        <div style={{ marginTop: 32, padding: '1.5rem', background: '#1a1814', borderRadius: 10, textAlign: 'center' }}>
+          <div style={{ fontFamily: 'var(--serif)', fontSize: 18, color: '#f5f3ee', marginBottom: 6 }}>
+            "Led by us. For us. And our kids."
+          </div>
+          <div style={{ fontSize: 13, color: '#888074', fontFamily: 'var(--sans)' }}>
+            No AI votes. No bots. No party donors. Every vote cast by a real verified human who paid to be here.
+          </div>
+        </div>
+      </div>
+    </section>
+  )
+}

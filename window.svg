@@ -1,0 +1,96 @@
+'use client'
+import { useState } from 'react'
+
+const PRICE_SINGLE = process.env.NEXT_PUBLIC_PRICE_SINGLE_VOTE!
+const PRICE_MEMBER = process.env.NEXT_PUBLIC_PRICE_MEMBERSHIP!
+
+export default function Pricing() {
+  const [loading, setLoading] = useState<string | null>(null)
+
+  async function checkout(priceId: string, mode: 'payment' | 'subscription') {
+    setLoading(priceId)
+    try {
+      const res = await fetch('/api/checkout', {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify({ priceId, mode }),
+      })
+      const { url } = await res.json()
+      if (url) window.location.href = url
+    } catch (e) {
+      alert('Something went wrong. Please try again.')
+    } finally {
+      setLoading(null)
+    }
+  }
+
+  return (
+    <section id="join" style={{ background: '#1a1814', padding: '4rem 1.5rem', borderBottom: '1px solid #2c2c2a' }}>
+      <div style={{ maxWidth: 900, margin: '0 auto' }}>
+        <div style={{ textAlign: 'center', marginBottom: 40 }}>
+          <div style={{ fontSize: 11, color: '#888074', letterSpacing: '0.12em', textTransform: 'uppercase', marginBottom: 8, fontFamily: 'var(--sans)' }}>Join Grey Parliament</div>
+          <h2 style={{ fontFamily: 'var(--serif)', fontSize: 'clamp(24px, 4vw, 36px)', fontWeight: 700, color: '#f5f3ee', marginBottom: 12 }}>
+            Your Voice Matters
+          </h2>
+          <p style={{ fontSize: 15, color: '#888074', fontFamily: 'var(--sans)', maxWidth: 480, margin: '0 auto' }}>
+            Free to join. Free to debate. Pay only to cast the official verdict that hits Parliament.
+          </p>
+        </div>
+
+        <div style={{ display: 'grid', gridTemplateColumns: 'repeat(auto-fit, minmax(240px, 1fr))', gap: 20 }}>
+
+          {/* Free */}
+          <div style={{ background: '#2c2c2a', borderRadius: 12, padding: '2rem', border: '1px solid #3a3a38' }}>
+            <div style={{ fontSize: 14, fontWeight: 500, color: '#f5f3ee', marginBottom: 6, fontFamily: 'var(--sans)' }}>Free Member</div>
+            <div style={{ fontFamily: 'var(--serif)', fontSize: 36, fontWeight: 700, color: '#f5f3ee', marginBottom: 4 }}>£0</div>
+            <div style={{ fontSize: 13, color: '#888074', marginBottom: 24, fontFamily: 'var(--sans)' }}>Always free</div>
+            {['Join the community', 'Read all verdicts', 'Post on the reaction wall', 'Regional forum access', 'Weekly newsletter'].map(f => (
+              <div key={f} style={{ fontSize: 13, color: '#c8c4bc', marginBottom: 8, display: 'flex', gap: 8, fontFamily: 'var(--sans)' }}>
+                <span style={{ color: '#888074' }}>✓</span>{f}
+              </div>
+            ))}
+            <button onClick={() => window.location.href = '/join'} style={{ width: '100%', padding: '12px', marginTop: 20, borderRadius: 8, border: '1px solid #3a3a38', background: 'transparent', color: '#c8c4bc', fontSize: 14, cursor: 'pointer', fontFamily: 'var(--sans)' }}>
+              Join free
+            </button>
+          </div>
+
+          {/* Single vote */}
+          <div style={{ background: '#2c2c2a', borderRadius: 12, padding: '2rem', border: '1px solid #888074' }}>
+            <div style={{ fontSize: 11, color: '#888074', letterSpacing: '0.08em', textTransform: 'uppercase', marginBottom: 6, fontFamily: 'var(--sans)' }}>Pay as you go</div>
+            <div style={{ fontSize: 14, fontWeight: 500, color: '#f5f3ee', marginBottom: 6, fontFamily: 'var(--sans)' }}>I Want My Say</div>
+            <div style={{ fontFamily: 'var(--serif)', fontSize: 36, fontWeight: 700, color: '#f5f3ee', marginBottom: 4 }}>£2.99</div>
+            <div style={{ fontSize: 13, color: '#888074', marginBottom: 24, fontFamily: 'var(--sans)' }}>per vote — one at a time</div>
+            {['One official vote', 'Your verdict goes to Parliament', 'Full member access for that week', 'Welcome membership card posted'].map(f => (
+              <div key={f} style={{ fontSize: 13, color: '#c8c4bc', marginBottom: 8, display: 'flex', gap: 8, fontFamily: 'var(--sans)' }}>
+                <span style={{ color: '#c8c4bc' }}>✓</span>{f}
+              </div>
+            ))}
+            <button onClick={() => checkout(PRICE_SINGLE, 'payment')} disabled={loading === PRICE_SINGLE} style={{ width: '100%', padding: '12px', marginTop: 20, borderRadius: 8, border: '1px solid #888074', background: 'transparent', color: '#f5f3ee', fontSize: 14, cursor: 'pointer', fontFamily: 'var(--sans)', fontWeight: 500 }}>
+              {loading === PRICE_SINGLE ? 'Loading...' : 'Vote once — £2.99'}
+            </button>
+          </div>
+
+          {/* Official member */}
+          <div style={{ background: '#f5f3ee', borderRadius: 12, padding: '2rem', border: '2px solid #f5f3ee', position: 'relative', overflow: 'hidden' }}>
+            <div style={{ position: 'absolute', top: 0, left: 0, right: 0, height: 3, background: '#1a1814' }}></div>
+            <div style={{ fontSize: 11, color: '#888074', letterSpacing: '0.08em', textTransform: 'uppercase', marginBottom: 6, fontFamily: 'var(--sans)' }}>Most popular</div>
+            <div style={{ fontSize: 14, fontWeight: 500, color: '#1a1814', marginBottom: 6, fontFamily: 'var(--sans)' }}>Official Member</div>
+            <div style={{ fontFamily: 'var(--serif)', fontSize: 36, fontWeight: 700, color: '#1a1814', marginBottom: 4 }}>£4.99<span style={{ fontSize: 16, fontWeight: 400, color: '#888074' }}>/mo</span></div>
+            <div style={{ fontSize: 13, color: '#888074', marginBottom: 24, fontFamily: 'var(--sans)' }}>cancel any time</div>
+            {['Vote every week — hits Parliament', 'Official membership card posted', 'Early access to next week\'s question', 'Named in the verified voter count', 'Full forum & community access', 'Weekly verdict newsletter'].map(f => (
+              <div key={f} style={{ fontSize: 13, color: '#1a1814', marginBottom: 8, display: 'flex', gap: 8, fontFamily: 'var(--sans)' }}>
+                <span>✓</span>{f}
+              </div>
+            ))}
+            <button onClick={() => checkout(PRICE_MEMBER, 'subscription')} disabled={loading === PRICE_MEMBER} style={{ width: '100%', padding: '12px', marginTop: 20, borderRadius: 8, border: 'none', background: '#1a1814', color: '#f5f3ee', fontSize: 14, cursor: 'pointer', fontFamily: 'var(--sans)', fontWeight: 500 }}>
+              {loading === PRICE_MEMBER ? 'Loading...' : 'Join — £4.99/month'}
+            </button>
+            <div style={{ fontSize: 11, color: '#888074', textAlign: 'center', marginTop: 8, fontFamily: 'var(--sans)' }}>
+              Annual option — £50/year (includes surprise gift)
+            </div>
+          </div>
+        </div>
+      </div>
+    </section>
+  )
+}

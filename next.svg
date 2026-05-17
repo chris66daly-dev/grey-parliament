@@ -1,0 +1,51 @@
+export default function Footer() {
+  return (
+    <footer style={{ background: '#1a1814', padding: '3rem 1.5rem', borderTop: '1px solid #2c2c2a' }}>
+      <div style={{ maxWidth: 900, margin: '0 auto' }}>
+        <div style={{ display: 'flex', alignItems: 'center', justifyContent: 'center', gap: 12, marginBottom: 24 }}>
+          <div style={{ flex: 1, height: 1, background: '#2c2c2a' }}></div>
+          <span style={{ fontFamily: 'var(--serif)', fontSize: 20, fontWeight: 700, color: '#f5f3ee' }}>Grey Parliament</span>
+          <div style={{ flex: 1, height: 1, background: '#2c2c2a' }}></div>
+        </div>
+
+        <div style={{ display: 'grid', gridTemplateColumns: 'repeat(auto-fit, minmax(160px, 1fr))', gap: 32, marginBottom: 32 }}>
+          <div>
+            <div style={{ fontSize: 11, color: '#888074', letterSpacing: '0.1em', textTransform: 'uppercase', marginBottom: 12, fontFamily: 'var(--sans)' }}>Platform</div>
+            {['This week\'s vote', 'MP tracker', 'Community forums', 'Regional chat', 'Constituency reps'].map(l => (
+              <div key={l} style={{ fontSize: 13, color: '#c8c4bc', marginBottom: 8, fontFamily: 'var(--sans)', cursor: 'pointer' }}>{l}</div>
+            ))}
+          </div>
+          <div>
+            <div style={{ fontSize: 11, color: '#888074', letterSpacing: '0.1em', textTransform: 'uppercase', marginBottom: 12, fontFamily: 'var(--sans)' }}>Membership</div>
+            {['Join free', 'I Want My Say — £2.99', 'Official Member — £4.99/mo', 'Annual — £50/year', 'Welcome card'].map(l => (
+              <div key={l} style={{ fontSize: 13, color: '#c8c4bc', marginBottom: 8, fontFamily: 'var(--sans)', cursor: 'pointer' }}>{l}</div>
+            ))}
+          </div>
+          <div>
+            <div style={{ fontSize: 11, color: '#888074', letterSpacing: '0.1em', textTransform: 'uppercase', marginBottom: 12, fontFamily: 'var(--sans)' }}>About</div>
+            {['The five rules', 'Our manifesto', 'How verdicts work', 'Press & media', 'Contact'].map(l => (
+              <div key={l} style={{ fontSize: 13, color: '#c8c4bc', marginBottom: 8, fontFamily: 'var(--sans)', cursor: 'pointer' }}>{l}</div>
+            ))}
+          </div>
+          <div>
+            <div style={{ fontSize: 11, color: '#888074', letterSpacing: '0.1em', textTransform: 'uppercase', marginBottom: 12, fontFamily: 'var(--sans)' }}>This week</div>
+            <div style={{ fontSize: 13, color: '#c8c4bc', lineHeight: 1.6, fontFamily: 'var(--sans)' }}>
+              47,291 members. 47 verdicts issued. 650 MPs on notice.
+              <br/><br/>
+              Verdict closes Sunday midnight.
+            </div>
+          </div>
+        </div>
+
+        <div style={{ borderTop: '1px solid #2c2c2a', paddingTop: 24, display: 'flex', justifyContent: 'space-between', alignItems: 'center', flexWrap: 'wrap', gap: 12 }}>
+          <div style={{ fontSize: 12, color: '#555550', fontFamily: 'var(--sans)' }}>
+            © 2026 Grey Parliament · No party affiliation · Ever · greyparliament.co.uk
+          </div>
+          <div style={{ fontSize: 12, color: '#555550', fontFamily: 'var(--sans)' }}>
+            Privacy · Terms · Cookie policy
+          </div>
+        </div>
+      </div>
+    </footer>
+  )
+}

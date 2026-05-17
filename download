@@ -1,0 +1,173 @@
+'use client'
+import { useState } from 'react'
+import Link from 'next/link'
+
+const DECADE_REACTIONS: Record<string, string> = {
+  '40s': "The 1940s. You were born before colour television. You don't just deserve a seat at this table — you built the table. Welcome, and thank you.",
+  '50s': "A child of the 1950s. You grew up with rationing, rock and roll, and politicians who at least pretended to have principles. Your cynicism is entirely justified.",
+  '60s': "Born in the swinging sixties. You've seen Thatcher, Blair, Brexit and everything in between. If anyone's earned the right to send a strongly worded letter to an MP, it's you.",
+  '70s': "A child of the 1970s. Three-day weeks, power cuts, strikes. You were forged in chaos. No wonder you have opinions.",
+  '80s': "Just qualifies. Born in the early 80s — you're the youngest person in this room and everyone resents you slightly for it. Welcome anyway.",
+}
+
+const AI_QUIPS = [
+  "Our AI thinks you're 34. It's been wrong before. In you come.",
+  "Suspiciously well-preserved. We're letting you through on the basis that nobody under 50 would bother.",
+  "The algorithm flagged you as 'implausibly youthful'. We overruled it. This happens more than you'd think.",
+  "You've got the eyes of someone who's watched too many governments come and go. Welcome.",
+  "Our AI detected strong traces of wisdom and mild traces of cynicism. Perfect.",
+]
+
+export default function Hero() {
+  const [step, setStep] = useState(0)
+  const [aiQuip, setAiQuip] = useState('')
+  const [aiAge, setAiAge] = useState(0)
+  const [year, setYear] = useState('')
+  const [decadeText, setDecadeText] = useState('')
+  const [analysing, setAnalysing] = useState(false)
+
+  function takeSelfie() {
+    setAnalysing(true)
+    setTimeout(() => {
+      setAiAge(30 + Math.floor(Math.random() * 12))
+      setAiQuip(AI_QUIPS[Math.floor(Math.random() * AI_QUIPS.length)])
+      setAnalysing(false)
+      setStep(2)
+    }, 2200)
+    setStep(1)
+  }
+
+  function handleYear(y: string) {
+    setYear(y)
+    const n = parseInt(y)
+    if (n < 1950) setDecadeText(DECADE_REACTIONS['40s'])
+    else if (n < 1960) setDecadeText(DECADE_REACTIONS['50s'])
+    else if (n < 1970) setDecadeText(DECADE_REACTIONS['60s'])
+    else if (n < 1980) setDecadeText(DECADE_REACTIONS['70s'])
+    else setDecadeText(DECADE_REACTIONS['80s'])
+  }
+
+  const years = Array.from({ length: 46 }, (_, i) => new Date().getFullYear() - 50 - i)
+
+  return (
+    <section style={{ background: '#1a1814', padding: '4rem 1.5rem 5rem', borderBottom: '3px solid #2c2c2a' }}>
+      <div style={{ maxWidth: 720, margin: '0 auto', textAlign: 'center' }}>
+
+        {/* Masthead */}
+        <div style={{ fontSize: 11, color: '#888074', letterSpacing: '0.12em', textTransform: 'uppercase', marginBottom: 12, fontFamily: 'var(--sans)' }}>
+          Independent · Non-partisan · Over 50s only
+        </div>
+        <h1 style={{ fontFamily: 'var(--serif)', fontSize: 'clamp(36px, 6vw, 64px)', fontWeight: 700, color: '#f5f3ee', lineHeight: 1.1, marginBottom: 16 }}>
+          Grey Parliament
+        </h1>
+        <div style={{ display: 'flex', alignItems: 'center', justifyContent: 'center', gap: 12, marginBottom: 20 }}>
+          <div style={{ flex: 1, height: 1, background: '#2c2c2a' }}></div>
+          <span style={{ fontSize: 16, color: '#888074' }}>♛</span>
+          <span style={{ fontSize: 13, color: '#888074', letterSpacing: '0.1em', textTransform: 'uppercase', fontFamily: 'var(--sans)' }}>Your Voice Matters</span>
+          <span style={{ fontSize: 16, color: '#888074' }}>♛</span>
+          <div style={{ flex: 1, height: 1, background: '#2c2c2a' }}></div>
+        </div>
+        <p style={{ fontSize: 18, color: '#c8c4bc', lineHeight: 1.7, marginBottom: 32, fontFamily: 'var(--sans)' }}>
+          The club the kids can't destroy. Vote weekly on the issues that matter.
+          Your verdict hits Parliament every single week — whether they like it or not.
+        </p>
+
+        {/* Stats */}
+        <div style={{ display: 'grid', gridTemplateColumns: 'repeat(3, 1fr)', gap: 16, marginBottom: 40 }}>
+          {[
+            { n: '47,291', l: 'Members' },
+            { n: '47', l: 'Verdicts issued' },
+            { n: '650', l: 'MPs on notice' },
+          ].map(s => (
+            <div key={s.l} style={{ background: '#2c2c2a', borderRadius: 8, padding: '1rem' }}>
+              <div style={{ fontFamily: 'var(--serif)', fontSize: 28, fontWeight: 700, color: '#f5f3ee' }}>{s.n}</div>
+              <div style={{ fontSize: 12, color: '#888074', marginTop: 2, fontFamily: 'var(--sans)' }}>{s.l}</div>
+            </div>
+          ))}
+        </div>
+
+        {/* Age gate */}
+        {step === 0 && (
+          <div style={{ background: '#2c2c2a', borderRadius: 12, padding: '2rem', border: '1px solid #3a3a38' }}>
+            <div style={{ fontSize: 11, color: '#888074', letterSpacing: '0.1em', textTransform: 'uppercase', marginBottom: 12, fontFamily: 'var(--sans)' }}>
+              Step 1 of 3 — prove you belong here
+            </div>
+            <h2 style={{ fontFamily: 'var(--serif)', fontSize: 22, fontWeight: 700, color: '#f5f3ee', marginBottom: 8 }}>
+              Are you sure you're over 50?
+            </h2>
+            <p style={{ fontSize: 14, color: '#888074', marginBottom: 24, lineHeight: 1.7, fontFamily: 'var(--sans)' }}>
+              You honestly don't look it. But we need a quick selfie before we let you in — rules are rules.
+            </p>
+            <button onClick={takeSelfie} style={{ display: 'inline-flex', alignItems: 'center', gap: 8, padding: '12px 28px', background: '#f5f3ee', borderRadius: 8, border: 'none', fontSize: 15, fontWeight: 500, color: '#1a1814', cursor: 'pointer', fontFamily: 'var(--sans)' }}>
+              📸 Take selfie to join
+            </button>
+            <div style={{ fontSize: 12, color: '#555550', marginTop: 12, fontFamily: 'var(--sans)' }}>
+              No photo stored. We just wanted to see if you'd flinch.
+            </div>
+          </div>
+        )}
+
+        {step === 1 && (
+          <div style={{ background: '#2c2c2a', borderRadius: 12, padding: '2rem', border: '1px solid #3a3a38' }}>
+            <div style={{ fontSize: 40, marginBottom: 12 }}>📸</div>
+            <div style={{ fontSize: 14, color: '#888074', marginBottom: 16, fontFamily: 'var(--sans)' }}>
+              Our AI is working very hard to be polite about this...
+            </div>
+            <div style={{ height: 4, background: '#1a1814', borderRadius: 2, overflow: 'hidden', marginBottom: 12 }}>
+              <div style={{ height: '100%', background: '#c8c4bc', borderRadius: 2, animation: 'var(--animate-progress)', width: analysing ? '90%' : '0%', transition: 'width 2s ease' }}></div>
+            </div>
+            <div style={{ fontSize: 13, color: '#555550', fontFamily: 'var(--sans)' }}>Scanning for distinguished features...</div>
+          </div>
+        )}
+
+        {step === 2 && (
+          <div style={{ background: '#2c2c2a', borderRadius: 12, padding: '2rem', border: '1px solid #3a3a38' }}>
+            <div style={{ fontFamily: 'var(--serif)', fontSize: 48, fontWeight: 700, color: '#f5f3ee', lineHeight: 1 }}>{aiAge}</div>
+            <div style={{ fontSize: 12, color: '#888074', marginBottom: 16, fontFamily: 'var(--sans)' }}>Our AI's estimate of your age</div>
+            <div style={{ background: '#1a1814', borderRadius: 8, padding: '1rem', marginBottom: 20, fontSize: 14, color: '#c8c4bc', lineHeight: 1.7, fontStyle: 'italic', fontFamily: 'var(--sans)' }}>
+              "{aiQuip}"
+            </div>
+            <h3 style={{ fontFamily: 'var(--serif)', fontSize: 18, color: '#f5f3ee', marginBottom: 16 }}>
+              Still insisting you're over 50?
+            </h3>
+            <div style={{ display: 'flex', gap: 10, justifyContent: 'center' }}>
+              <button onClick={() => setStep(3)} style={{ padding: '10px 24px', background: '#f5f3ee', borderRadius: 8, border: 'none', fontSize: 14, fontWeight: 500, color: '#1a1814', cursor: 'pointer', fontFamily: 'var(--sans)' }}>
+                Yes — let me in
+              </button>
+              <button onClick={() => setStep(0)} style={{ padding: '10px 24px', background: 'transparent', borderRadius: 8, border: '1px solid #3a3a38', fontSize: 14, color: '#888074', cursor: 'pointer', fontFamily: 'var(--sans)' }}>
+                No, I lied. I'm 31.
+              </button>
+            </div>
+          </div>
+        )}
+
+        {step === 3 && (
+          <div style={{ background: '#2c2c2a', borderRadius: 12, padding: '2rem', border: '1px solid #3a3a38' }}>
+            <h3 style={{ fontFamily: 'var(--serif)', fontSize: 20, color: '#f5f3ee', marginBottom: 8 }}>When were you born?</h3>
+            <p style={{ fontSize: 14, color: '#888074', marginBottom: 20, fontFamily: 'var(--sans)' }}>
+              Just the year — enough to give you the appropriate level of respect.
+            </p>
+            <select value={year} onChange={e => handleYear(e.target.value)} style={{ padding: '10px 16px', borderRadius: 8, border: '1px solid #3a3a38', background: '#1a1814', color: '#f5f3ee', fontSize: 14, fontFamily: 'var(--sans)', marginBottom: 16, width: '100%' }}>
+              <option value="">Select year of birth</option>
+              {years.map(y => <option key={y} value={y}>{y}</option>)}
+            </select>
+            {decadeText && (
+              <div style={{ background: '#1a1814', borderRadius: 8, padding: '1rem', marginBottom: 20, fontSize: 14, color: '#c8c4bc', lineHeight: 1.7, fontStyle: 'italic', fontFamily: 'var(--sans)', textAlign: 'left' }}>
+                {decadeText}
+              </div>
+            )}
+            {year && (
+              <Link href="/join" style={{ display: 'inline-block', padding: '12px 28px', background: '#f5f3ee', borderRadius: 8, fontSize: 15, fontWeight: 500, color: '#1a1814', textDecoration: 'none', fontFamily: 'var(--sans)' }}>
+                That's me — now take my money →
+              </Link>
+            )}
+          </div>
+        )}
+
+        <p style={{ fontSize: 12, color: '#555550', marginTop: 20, fontFamily: 'var(--sans)' }}>
+          Led by us · For us · And our kids · No party affiliation · Ever
+        </p>
+      </div>
+    </section>
+  )
+}

@@ -1,0 +1,150 @@
+'use client'
+import { useState, useEffect } from 'react'
+
+const CURRENT_VOTE = {
+  topic: 'Pensions & Retirement',
+  question: 'Should the government be legally required to consult verified over-50s before changing the state pension age?',
+  options: [
+    { label: 'Yes — we paid in, we decide', pct: 71 },
+    { label: 'No — Parliament should decide', pct: 19 },
+    { label: 'Consultation yes, but not a veto', pct: 10 },
+  ],
+  voters: 41847,
+}
+
+function useCountdown() {
+  const [time, setTime] = useState({ d: 0, h: 0, m: 0, s: 0 })
+  useEffect(() => {
+    function calc() {
+      const now = new Date()
+      const sunday = new Date()
+      sunday.setDate(now.getDate() + (7 - now.getDay()) % 7 || 7)
+      sunday.setHours(23, 59, 59, 0)
+      const diff = sunday.getTime() - now.getTime()
+      setTime({
+        d: Math.floor(diff / 86400000),
+        h: Math.floor((diff % 86400000) / 3600000),
+        m: Math.floor((diff % 3600000) / 60000),
+        s: Math.floor((diff % 60000) / 1000),
+      })
+    }
+    calc()
+    const t = setInterval(calc, 1000)
+    return () => clearInterval(t)
+  }, [])
+  return time
+}
+
+export default function ThisWeeksVote() {
+  const [voted, setVoted] = useState(false)
+  const [choice, setChoice] = useState(-1)
+  const [sent, setSent] = useState(false)
+  const [count, setCount] = useState(CURRENT_VOTE.voters)
+  const time = useCountdown()
+
+  function castVote(i: number) {
+    if (voted) return
+    setVoted(true)
+    setChoice(i)
+    setCount(c => c + 1)
+  }
+
+  return (
+    <section style={{ background: '#f5f3ee', padding: '4rem 1.5rem', borderBottom: '1px solid #e8e4dc' }}>
+      <div style={{ maxWidth: 760, margin: '0 auto' }}>
+
+        {/* Masthead hook */}
+        <div style={{ textAlign: 'center', marginBottom: 32 }}>
+          <div style={{ fontSize: 11, color: '#888074', letterSpacing: '0.12em', textTransform: 'uppercase', marginBottom: 8, fontFamily: 'var(--sans)' }}>
+            Did you hear the latest from the House of Parliament?
+          </div>
+          <h2 style={{ fontFamily: 'var(--serif)', fontSize: 'clamp(22px, 4vw, 32px)', fontWeight: 700, color: '#1a1814', lineHeight: 1.3 }}>
+            What do the adults think?
+          </h2>
+        </div>
+
+        {/* Countdown */}
+        <div style={{ display: 'grid', gridTemplateColumns: 'repeat(4,1fr)', gap: 10, marginBottom: 32 }}>
+          {[
+            { v: String(time.d).padStart(2,'0'), l: 'Days' },
+            { v: String(time.h).padStart(2,'0'), l: 'Hours' },
+            { v: String(time.m).padStart(2,'0'), l: 'Mins' },
+            { v: String(time.s).padStart(2,'0'), l: 'Secs' },
+          ].map(t => (
+            <div key={t.l} style={{ background: '#1a1814', borderRadius: 8, padding: '1rem', textAlign: 'center' }}>
+              <div style={{ fontFamily: 'var(--serif)', fontSize: 28, fontWeight: 700, color: '#f5f3ee' }}>{t.v}</div>
+              <div style={{ fontSize: 11, color: '#888074', marginTop: 2, fontFamily: 'var(--sans)', textTransform: 'uppercase', letterSpacing: '0.08em' }}>{t.l}</div>
+            </div>
+          ))}
+        </div>
+
+        {/* Vote card */}
+        <div style={{ background: '#fff', borderRadius: 12, border: '1px solid #e8e4dc', padding: '2rem', marginBottom: 16 }}>
+          <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center', marginBottom: 16 }}>
+            <span style={{ fontSize: 11, color: '#888074', letterSpacing: '0.08em', textTransform: 'uppercase', fontFamily: 'var(--sans)' }}>
+              {CURRENT_VOTE.topic}
+            </span>
+            <span style={{ display: 'flex', alignItems: 'center', gap: 6, fontSize: 12, color: '#888074', fontFamily: 'var(--sans)' }}>
+              <span style={{ width: 6, height: 6, borderRadius: '50%', background: '#4ade80', display: 'inline-block', animation: 'pulse 2s infinite' }}></span>
+              Live
+            </span>
+          </div>
+
+          <h3 style={{ fontFamily: 'var(--serif)', fontSize: 22, fontWeight: 700, color: '#1a1814', lineHeight: 1.4, marginBottom: 24 }}>
+            {CURRENT_VOTE.question}
+          </h3>
+
+          {!voted ? (
+            <div style={{ display: 'flex', flexDirection: 'column', gap: 10, marginBottom: 20 }}>
+              {CURRENT_VOTE.options.map((opt, i) => (
+                <button key={i} onClick={() => castVote(i)} style={{ padding: '14px 18px', border: '1px solid #e8e4dc', borderRadius: 8, background: '#f5f3ee', fontSize: 15, color: '#1a1814', cursor: 'pointer', textAlign: 'left', fontFamily: 'var(--sans)', transition: 'all 0.15s' }}>
+                  {opt.label}
+                </button>
+              ))}
+              <div style={{ fontSize: 12, color: '#888074', marginTop: 4, fontFamily: 'var(--sans)' }}>
+                Free members: your reaction below. <a href="/join?plan=member" style={{ color: '#1a1814', fontWeight: 500 }}>Official members vote and hit Parliament →</a>
+              </div>
+            </div>
+          ) : (
+            <div style={{ marginBottom: 20 }}>
+              {CURRENT_VOTE.options.map((opt, i) => (
+                <div key={i} style={{ marginBottom: 12 }}>
+                  <div style={{ display: 'flex', justifyContent: 'space-between', fontSize: 13, marginBottom: 4, fontFamily: 'var(--sans)', color: i === 0 ? '#1a1814' : '#888074', fontWeight: i === 0 ? 500 : 400 }}>
+                    <span>{opt.label}{i === choice ? ' ← your vote' : ''}</span>
+                    <span>{opt.pct}%</span>
+                  </div>
+                  <div style={{ height: 8, background: '#f5f3ee', borderRadius: 4, overflow: 'hidden' }}>
+                    <div className="vote-bar" style={{ height: '100%', width: `${opt.pct}%`, background: i === 0 ? '#1a1814' : '#c8c4bc', borderRadius: 4 }}></div>
+                  </div>
+                </div>
+              ))}
+            </div>
+          )}
+
+          <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center', paddingTop: 16, borderTop: '1px solid #e8e4dc' }}>
+            <div style={{ fontSize: 13, color: '#888074', fontFamily: 'var(--sans)' }}>
+              👥 {count.toLocaleString()} adults have voted
+            </div>
+            {voted && !sent && (
+              <button onClick={() => setSent(true)} style={{ display: 'flex', alignItems: 'center', gap: 6, padding: '8px 16px', border: '1px solid #1a1814', borderRadius: 6, background: 'transparent', fontSize: 13, color: '#1a1814', cursor: 'pointer', fontFamily: 'var(--sans)' }}>
+                ✉ Send verdict to my MP
+              </button>
+            )}
+            {sent && (
+              <span style={{ fontSize: 13, color: '#166534', fontFamily: 'var(--sans)' }}>✓ Verdict sent to Parliament</span>
+            )}
+          </div>
+        </div>
+
+        {/* Reaction wall teaser */}
+        <div style={{ background: '#1a1814', borderRadius: 12, padding: '1.5rem', textAlign: 'center' }}>
+          <div style={{ fontFamily: 'var(--serif)', fontSize: 18, color: '#f5f3ee', marginBottom: 8 }}>
+            "Won't make a blind bit of difference. They never listen."
+          </div>
+          <div style={{ fontSize: 12, color: '#888074', marginBottom: 16, fontFamily: 'var(--sans)' }}>Sandra K, Manchester — 3,891 adults agreed</div>
+          <a href="/community" style={{ fontSize: 13, color: '#c8c4bc', fontFamily: 'var(--sans)' }}>Read all reactions and join the debate →</a>
+        </div>
+      </div>
+    </section>
+  )
+}
