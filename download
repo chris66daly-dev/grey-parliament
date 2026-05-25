@@ -1,173 +1,212 @@
-'use client'
-import { useState } from 'react'
-import Link from 'next/link'
+import Link from "next/link";
 
-const DECADE_REACTIONS: Record<string, string> = {
-  '40s': "The 1940s. You were born before colour television. You don't just deserve a seat at this table — you built the table. Welcome, and thank you.",
-  '50s': "A child of the 1950s. You grew up with rationing, rock and roll, and politicians who at least pretended to have principles. Your cynicism is entirely justified.",
-  '60s': "Born in the swinging sixties. You've seen Thatcher, Blair, Brexit and everything in between. If anyone's earned the right to send a strongly worded letter to an MP, it's you.",
-  '70s': "A child of the 1970s. Three-day weeks, power cuts, strikes. You were forged in chaos. No wonder you have opinions.",
-  '80s': "Just qualifies. Born in the early 80s — you're the youngest person in this room and everyone resents you slightly for it. Welcome anyway.",
-}
-
-const AI_QUIPS = [
-  "Our AI thinks you're 34. It's been wrong before. In you come.",
-  "Suspiciously well-preserved. We're letting you through on the basis that nobody under 50 would bother.",
-  "The algorithm flagged you as 'implausibly youthful'. We overruled it. This happens more than you'd think.",
-  "You've got the eyes of someone who's watched too many governments come and go. Welcome.",
-  "Our AI detected strong traces of wisdom and mild traces of cynicism. Perfect.",
-]
-
-export default function Hero() {
-  const [step, setStep] = useState(0)
-  const [aiQuip, setAiQuip] = useState('')
-  const [aiAge, setAiAge] = useState(0)
-  const [year, setYear] = useState('')
-  const [decadeText, setDecadeText] = useState('')
-  const [analysing, setAnalysing] = useState(false)
-
-  function takeSelfie() {
-    setAnalysing(true)
-    setTimeout(() => {
-      setAiAge(30 + Math.floor(Math.random() * 12))
-      setAiQuip(AI_QUIPS[Math.floor(Math.random() * AI_QUIPS.length)])
-      setAnalysing(false)
-      setStep(2)
-    }, 2200)
-    setStep(1)
-  }
-
-  function handleYear(y: string) {
-    setYear(y)
-    const n = parseInt(y)
-    if (n < 1950) setDecadeText(DECADE_REACTIONS['40s'])
-    else if (n < 1960) setDecadeText(DECADE_REACTIONS['50s'])
-    else if (n < 1970) setDecadeText(DECADE_REACTIONS['60s'])
-    else if (n < 1980) setDecadeText(DECADE_REACTIONS['70s'])
-    else setDecadeText(DECADE_REACTIONS['80s'])
-  }
-
-  const years = Array.from({ length: 46 }, (_, i) => new Date().getFullYear() - 50 - i)
-
+export default function Home() {
   return (
-    <section style={{ background: '#1a1814', padding: '4rem 1.5rem 5rem', borderBottom: '3px solid #2c2c2a' }}>
-      <div style={{ maxWidth: 720, margin: '0 auto', textAlign: 'center' }}>
+    <main style={{ fontFamily: "'Source Serif 4', Georgia, serif" }}>
 
-        {/* Masthead */}
-        <div style={{ fontSize: 11, color: '#888074', letterSpacing: '0.12em', textTransform: 'uppercase', marginBottom: 12, fontFamily: 'var(--sans)' }}>
-          Independent · Non-partisan · Over 50s only
-        </div>
-        <h1 style={{ fontFamily: 'var(--serif)', fontSize: 'clamp(36px, 6vw, 64px)', fontWeight: 700, color: '#f5f3ee', lineHeight: 1.1, marginBottom: 16 }}>
+      {/* NAV */}
+      <nav style={{
+        background: "#1a1a1a",
+        padding: "16px 40px",
+        display: "flex",
+        justifyContent: "space-between",
+        alignItems: "center",
+        position: "sticky",
+        top: 0,
+        zIndex: 100
+      }}>
+        <div style={{ color: "#c9a84c", fontSize: "1.4rem", fontFamily: "'Playfair Display', serif", fontWeight: 900 }}>
           Grey Parliament
-        </h1>
-        <div style={{ display: 'flex', alignItems: 'center', justifyContent: 'center', gap: 12, marginBottom: 20 }}>
-          <div style={{ flex: 1, height: 1, background: '#2c2c2a' }}></div>
-          <span style={{ fontSize: 16, color: '#888074' }}>♛</span>
-          <span style={{ fontSize: 13, color: '#888074', letterSpacing: '0.1em', textTransform: 'uppercase', fontFamily: 'var(--sans)' }}>Your Voice Matters</span>
-          <span style={{ fontSize: 16, color: '#888074' }}>♛</span>
-          <div style={{ flex: 1, height: 1, background: '#2c2c2a' }}></div>
         </div>
-        <p style={{ fontSize: 18, color: '#c8c4bc', lineHeight: 1.7, marginBottom: 32, fontFamily: 'var(--sans)' }}>
-          The club the kids can't destroy. Vote weekly on the issues that matter.
-          Your verdict hits Parliament every single week — whether they like it or not.
-        </p>
+        <div style={{ display: "flex", gap: "24px", alignItems: "center" }}>
+          <Link href="/vote" style={{ color: "#f5f0e8", textDecoration: "none", fontSize: "0.9rem", letterSpacing: "0.08em", textTransform: "uppercase" }}>This Week&apos;s Vote</Link>
+          <Link href="/manifesto" style={{ color: "#f5f0e8", textDecoration: "none", fontSize: "0.9rem", letterSpacing: "0.08em", textTransform: "uppercase" }}>Manifesto</Link>
+          <Link href="/join" style={{
+            background: "#c9a84c",
+            color: "#1a1a1a",
+            padding: "8px 20px",
+            textDecoration: "none",
+            fontSize: "0.85rem",
+            fontWeight: 700,
+            letterSpacing: "0.08em",
+            textTransform: "uppercase"
+          }}>Join Free</Link>
+        </div>
+      </nav>
 
-        {/* Stats */}
-        <div style={{ display: 'grid', gridTemplateColumns: 'repeat(3, 1fr)', gap: 16, marginBottom: 40 }}>
-          {[
-            { n: '47,291', l: 'Members' },
-            { n: '47', l: 'Verdicts issued' },
-            { n: '650', l: 'MPs on notice' },
-          ].map(s => (
-            <div key={s.l} style={{ background: '#2c2c2a', borderRadius: 8, padding: '1rem' }}>
-              <div style={{ fontFamily: 'var(--serif)', fontSize: 28, fontWeight: 700, color: '#f5f3ee' }}>{s.n}</div>
-              <div style={{ fontSize: 12, color: '#888074', marginTop: 2, fontFamily: 'var(--sans)' }}>{s.l}</div>
+      {/* HERO */}
+      <section style={{
+        background: "#1a1a1a",
+        color: "#f5f0e8",
+        padding: "100px 40px",
+        textAlign: "center",
+        position: "relative",
+        overflow: "hidden"
+      }}>
+        <div style={{
+          position: "absolute", top: 0, left: 0, right: 0, bottom: 0,
+          background: "repeating-linear-gradient(0deg, transparent, transparent 40px, rgba(201,168,76,0.03) 40px, rgba(201,168,76,0.03) 41px)",
+          pointerEvents: "none"
+        }} />
+        <p style={{ color: "#c9a84c", fontSize: "0.85rem", letterSpacing: "0.4em", textTransform: "uppercase", marginBottom: "20px" }}>
+          Est. 2025 — Ash in Makerfield, Lancashire
+        </p>
+        <h1 style={{
+          fontFamily: "'Playfair Display', serif",
+          fontSize: "clamp(2.8rem, 7vw, 6rem)",
+          fontWeight: 900,
+          lineHeight: 1.05,
+          marginBottom: "24px"
+        }}>
+          Your voice is needed<br />
+          <span style={{ color: "#c9a84c" }}>now. For your country.</span>
+        </h1>
+        <p style={{ fontSize: "1.2rem", color: "rgba(245,240,232,0.8)", maxWidth: "640px", margin: "0 auto 16px", fontStyle: "italic" }}>
+          Not a petition. Not a protest. Not affiliated to any party. Ever.
+        </p>
+        <p style={{ fontSize: "1.1rem", color: "rgba(245,240,232,0.9)", maxWidth: "680px", margin: "0 auto 48px", lineHeight: 1.8 }}>
+          The over-50s — the biggest voting bloc in Britain — speaking with one organised,
+          verified, democratic voice. Every week we vote on the questions politicians avoid.
+          Every week the result goes formally to Parliament.
+        </p>
+        <div style={{ display: "flex", gap: "16px", justifyContent: "center", flexWrap: "wrap" }}>
+          <Link href="/join" style={{
+            background: "#c9a84c",
+            color: "#1a1a1a",
+            padding: "16px 40px",
+            textDecoration: "none",
+            fontSize: "1rem",
+            fontWeight: 700,
+            letterSpacing: "0.1em",
+            textTransform: "uppercase"
+          }}>
+            Join Free — Have Your Say
+          </Link>
+          <Link href="/vote" style={{
+            border: "1px solid rgba(245,240,232,0.4)",
+            color: "#f5f0e8",
+            padding: "15px 40px",
+            textDecoration: "none",
+            fontSize: "1rem",
+            letterSpacing: "0.1em",
+            textTransform: "uppercase"
+          }}>
+            This Week&apos;s Vote
+          </Link>
+        </div>
+
+        <div style={{ marginTop: "80px", display: "flex", justifyContent: "center", gap: "60px", flexWrap: "wrap" }}>
+          {[["Age verified", "50+ only"], ["Non-partisan", "No party. Ever."], ["Formally sent", "To Parliament weekly"], ["Your data", "Never sold"]].map(([title, sub]) => (
+            <div key={title} style={{ textAlign: "center" }}>
+              <div style={{ color: "#c9a84c", fontSize: "0.75rem", letterSpacing: "0.2em", textTransform: "uppercase", marginBottom: "6px" }}>{title}</div>
+              <div style={{ color: "rgba(245,240,232,0.6)", fontSize: "0.9rem" }}>{sub}</div>
             </div>
           ))}
         </div>
+      </section>
 
-        {/* Age gate */}
-        {step === 0 && (
-          <div style={{ background: '#2c2c2a', borderRadius: 12, padding: '2rem', border: '1px solid #3a3a38' }}>
-            <div style={{ fontSize: 11, color: '#888074', letterSpacing: '0.1em', textTransform: 'uppercase', marginBottom: 12, fontFamily: 'var(--sans)' }}>
-              Step 1 of 3 — prove you belong here
-            </div>
-            <h2 style={{ fontFamily: 'var(--serif)', fontSize: 22, fontWeight: 700, color: '#f5f3ee', marginBottom: 8 }}>
-              Are you sure you're over 50?
-            </h2>
-            <p style={{ fontSize: 14, color: '#888074', marginBottom: 24, lineHeight: 1.7, fontFamily: 'var(--sans)' }}>
-              You honestly don't look it. But we need a quick selfie before we let you in — rules are rules.
-            </p>
-            <button onClick={takeSelfie} style={{ display: 'inline-flex', alignItems: 'center', gap: 8, padding: '12px 28px', background: '#f5f3ee', borderRadius: 8, border: 'none', fontSize: 15, fontWeight: 500, color: '#1a1814', cursor: 'pointer', fontFamily: 'var(--sans)' }}>
-              📸 Take selfie to join
-            </button>
-            <div style={{ fontSize: 12, color: '#555550', marginTop: 12, fontFamily: 'var(--sans)' }}>
-              No photo stored. We just wanted to see if you'd flinch.
-            </div>
+      {/* THIS WEEK'S VOTE */}
+      <section style={{ padding: "80px 40px", background: "#f5f0e8" }}>
+        <div style={{ maxWidth: "800px", margin: "0 auto", textAlign: "center" }}>
+          <p style={{ color: "#c9a84c", fontSize: "0.8rem", letterSpacing: "0.3em", textTransform: "uppercase", marginBottom: "12px" }}>This week&apos;s question</p>
+          <h2 style={{ fontFamily: "'Playfair Display', serif", fontSize: "clamp(1.6rem, 3.5vw, 2.8rem)", fontWeight: 700, lineHeight: 1.3, marginBottom: "32px", color: "#1a1a1a" }}>
+            Should NHS prescription charges be abolished for all over-60s, regardless of income?
+          </h2>
+          <div style={{ display: "flex", gap: "16px", justifyContent: "center", marginBottom: "24px", flexWrap: "wrap" }}>
+            {["Yes — it should be a right", "No — means testing is fair", "More information needed"].map((opt) => (
+              <button key={opt} style={{
+                background: "#1a1a1a",
+                color: "#f5f0e8",
+                border: "none",
+                padding: "14px 28px",
+                fontSize: "0.95rem",
+                cursor: "pointer",
+                fontFamily: "'Source Serif 4', serif"
+              }}>{opt}</button>
+            ))}
           </div>
-        )}
+          <p style={{ color: "#888", fontSize: "0.85rem" }}>You must be a verified member to vote. Results sent to the Health Secretary on Friday.</p>
+          <Link href="/join" style={{ display: "inline-block", marginTop: "20px", color: "#c9a84c", fontSize: "0.9rem", fontWeight: 600 }}>
+            Join free to cast your vote →
+          </Link>
+        </div>
+      </section>
 
-        {step === 1 && (
-          <div style={{ background: '#2c2c2a', borderRadius: 12, padding: '2rem', border: '1px solid #3a3a38' }}>
-            <div style={{ fontSize: 40, marginBottom: 12 }}>📸</div>
-            <div style={{ fontSize: 14, color: '#888074', marginBottom: 16, fontFamily: 'var(--sans)' }}>
-              Our AI is working very hard to be polite about this...
-            </div>
-            <div style={{ height: 4, background: '#1a1814', borderRadius: 2, overflow: 'hidden', marginBottom: 12 }}>
-              <div style={{ height: '100%', background: '#c8c4bc', borderRadius: 2, animation: 'var(--animate-progress)', width: analysing ? '90%' : '0%', transition: 'width 2s ease' }}></div>
-            </div>
-            <div style={{ fontSize: 13, color: '#555550', fontFamily: 'var(--sans)' }}>Scanning for distinguished features...</div>
-          </div>
-        )}
-
-        {step === 2 && (
-          <div style={{ background: '#2c2c2a', borderRadius: 12, padding: '2rem', border: '1px solid #3a3a38' }}>
-            <div style={{ fontFamily: 'var(--serif)', fontSize: 48, fontWeight: 700, color: '#f5f3ee', lineHeight: 1 }}>{aiAge}</div>
-            <div style={{ fontSize: 12, color: '#888074', marginBottom: 16, fontFamily: 'var(--sans)' }}>Our AI's estimate of your age</div>
-            <div style={{ background: '#1a1814', borderRadius: 8, padding: '1rem', marginBottom: 20, fontSize: 14, color: '#c8c4bc', lineHeight: 1.7, fontStyle: 'italic', fontFamily: 'var(--sans)' }}>
-              "{aiQuip}"
-            </div>
-            <h3 style={{ fontFamily: 'var(--serif)', fontSize: 18, color: '#f5f3ee', marginBottom: 16 }}>
-              Still insisting you're over 50?
-            </h3>
-            <div style={{ display: 'flex', gap: 10, justifyContent: 'center' }}>
-              <button onClick={() => setStep(3)} style={{ padding: '10px 24px', background: '#f5f3ee', borderRadius: 8, border: 'none', fontSize: 14, fontWeight: 500, color: '#1a1814', cursor: 'pointer', fontFamily: 'var(--sans)' }}>
-                Yes — let me in
-              </button>
-              <button onClick={() => setStep(0)} style={{ padding: '10px 24px', background: 'transparent', borderRadius: 8, border: '1px solid #3a3a38', fontSize: 14, color: '#888074', cursor: 'pointer', fontFamily: 'var(--sans)' }}>
-                No, I lied. I'm 31.
-              </button>
-            </div>
-          </div>
-        )}
-
-        {step === 3 && (
-          <div style={{ background: '#2c2c2a', borderRadius: 12, padding: '2rem', border: '1px solid #3a3a38' }}>
-            <h3 style={{ fontFamily: 'var(--serif)', fontSize: 20, color: '#f5f3ee', marginBottom: 8 }}>When were you born?</h3>
-            <p style={{ fontSize: 14, color: '#888074', marginBottom: 20, fontFamily: 'var(--sans)' }}>
-              Just the year — enough to give you the appropriate level of respect.
-            </p>
-            <select value={year} onChange={e => handleYear(e.target.value)} style={{ padding: '10px 16px', borderRadius: 8, border: '1px solid #3a3a38', background: '#1a1814', color: '#f5f3ee', fontSize: 14, fontFamily: 'var(--sans)', marginBottom: 16, width: '100%' }}>
-              <option value="">Select year of birth</option>
-              {years.map(y => <option key={y} value={y}>{y}</option>)}
-            </select>
-            {decadeText && (
-              <div style={{ background: '#1a1814', borderRadius: 8, padding: '1rem', marginBottom: 20, fontSize: 14, color: '#c8c4bc', lineHeight: 1.7, fontStyle: 'italic', fontFamily: 'var(--sans)', textAlign: 'left' }}>
-                {decadeText}
+      {/* THE FIVE RULES */}
+      <section style={{ padding: "80px 40px", background: "#2a2a2a", color: "#f5f0e8" }}>
+        <div style={{ maxWidth: "900px", margin: "0 auto" }}>
+          <p style={{ color: "#c9a84c", fontSize: "0.8rem", letterSpacing: "0.3em", textTransform: "uppercase", marginBottom: "12px", textAlign: "center" }}>Our founding rules</p>
+          <h2 style={{ fontFamily: "'Playfair Display', serif", fontSize: "clamp(1.8rem, 3vw, 2.4rem)", fontWeight: 700, textAlign: "center", marginBottom: "48px" }}>
+            Five rules. No exceptions. No negotiations.
+          </h2>
+          <div style={{ display: "grid", gridTemplateColumns: "repeat(auto-fit, minmax(260px, 1fr))", gap: "24px" }}>
+            {[
+              ["1", "We affiliate to no political party — ever.", "No donations from any politician, party or campaign. This is constitutionally embedded."],
+              ["2", "Every member is age-verified at 50 or over.", "No exceptions. Age verification is what gives our data its credibility."],
+              ["3", "One member, one vote.", "No weighting by geography, income or education. Pure democracy."],
+              ["4", "All verdicts are published openly.", "Sent formally to the relevant minister every week. Responses published. Non-responses published."],
+              ["5", "We answer the questions politicians avoid.", "If it is too awkward for Westminster — that is precisely what we will put to a vote."],
+            ].map(([num, title, desc]) => (
+              <div key={num} style={{ borderLeft: "3px solid #c9a84c", paddingLeft: "20px" }}>
+                <div style={{ color: "#c9a84c", fontFamily: "'Playfair Display', serif", fontSize: "1.8rem", fontWeight: 900, marginBottom: "8px" }}>{num}</div>
+                <div style={{ fontWeight: 600, marginBottom: "8px", fontSize: "1rem" }}>{title}</div>
+                <div style={{ color: "rgba(245,240,232,0.6)", fontSize: "0.875rem", lineHeight: 1.6 }}>{desc}</div>
               </div>
-            )}
-            {year && (
-              <Link href="/join" style={{ display: 'inline-block', padding: '12px 28px', background: '#f5f3ee', borderRadius: 8, fontSize: 15, fontWeight: 500, color: '#1a1814', textDecoration: 'none', fontFamily: 'var(--sans)' }}>
-                That's me — now take my money →
-              </Link>
-            )}
+            ))}
           </div>
-        )}
+        </div>
+      </section>
 
-        <p style={{ fontSize: 12, color: '#555550', marginTop: 20, fontFamily: 'var(--sans)' }}>
-          Led by us · For us · And our kids · No party affiliation · Ever
-        </p>
-      </div>
-    </section>
-  )
+      {/* JOIN */}
+      <section style={{ padding: "80px 40px", background: "#f5f0e8" }}>
+        <div style={{ maxWidth: "700px", margin: "0 auto", textAlign: "center" }}>
+          <h2 style={{ fontFamily: "'Playfair Display', serif", fontSize: "clamp(1.8rem, 3.5vw, 2.8rem)", fontWeight: 700, marginBottom: "20px", color: "#1a1a1a" }}>
+            The adults are in the room.
+          </h2>
+          <p style={{ fontSize: "1.1rem", color: "#4a4a4a", marginBottom: "40px", lineHeight: 1.8 }}>
+            This is not about left or right. It is about the generation that built this country
+            finally having a verified, organised, democratic voice that Parliament cannot ignore.
+          </p>
+          <div style={{ display: "flex", gap: "20px", justifyContent: "center", flexWrap: "wrap" }}>
+            <Link href="/join" style={{
+              background: "#1a1a1a",
+              color: "#f5f0e8",
+              padding: "16px 40px",
+              textDecoration: "none",
+              fontSize: "1rem",
+              fontWeight: 700,
+              letterSpacing: "0.08em",
+              textTransform: "uppercase"
+            }}>Free membership — Join now</Link>
+            <Link href="/join?plan=member" style={{
+              background: "#c9a84c",
+              color: "#1a1a1a",
+              padding: "16px 40px",
+              textDecoration: "none",
+              fontSize: "1rem",
+              fontWeight: 700,
+              letterSpacing: "0.08em",
+              textTransform: "uppercase"
+            }}>Official member — £4.99/mo</Link>
+          </div>
+          <p style={{ marginTop: "20px", color: "#888", fontSize: "0.85rem" }}>
+            Free: vote weekly · Official: verdict reports, MP data, priority access
+          </p>
+        </div>
+      </section>
+
+      {/* FOOTER */}
+      <footer style={{ background: "#1a1a1a", color: "rgba(245,240,232,0.5)", padding: "40px", textAlign: "center", fontSize: "0.85rem" }}>
+        <div style={{ color: "#c9a84c", fontFamily: "'Playfair Display', serif", fontSize: "1.2rem", fontWeight: 700, marginBottom: "12px" }}>Grey Parliament</div>
+        <p style={{ marginBottom: "8px" }}>Fiercely independent. Affiliated to no party. Ever.</p>
+        <p>Founded in Ash in Makerfield, Lancashire · {new Date().getFullYear()}</p>
+        <div style={{ marginTop: "20px", display: "flex", gap: "20px", justifyContent: "center", flexWrap: "wrap" }}>
+          <Link href="/manifesto" style={{ color: "rgba(245,240,232,0.5)", textDecoration: "none" }}>Manifesto</Link>
+          <Link href="/join" style={{ color: "rgba(245,240,232,0.5)", textDecoration: "none" }}>Join</Link>
+          <Link href="/vote" style={{ color: "rgba(245,240,232,0.5)", textDecoration: "none" }}>Vote</Link>
+        </div>
+      </footer>
+
+    </main>
+  );
 }
