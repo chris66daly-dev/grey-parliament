@@ -10,6 +10,8 @@
   --cream: #f5f0e8;
   --dark: #1a1a1a;
   --mid: #4a4a4a;
+  --serif: 'Playfair Display', serif;
+  --sans: 'Source Serif 4', Georgia, serif;
 }
 
 * { box-sizing: border-box; margin: 0; padding: 0; }
