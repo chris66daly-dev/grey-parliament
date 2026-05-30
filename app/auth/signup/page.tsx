@@ -1,0 +1,28 @@
+import Link from 'next/link'
+import SignupForm from '@/components/SignupForm'
+
+export const metadata = { title: 'Join Grey Parliament' }
+
+export default function SignupPage() {
+  return (
+    <main style={{ minHeight: '100vh', background: '#1a1814', display: 'flex', alignItems: 'center', justifyContent: 'center', padding: '2rem' }}>
+      <div style={{ width: '100%', maxWidth: 440 }}>
+        <div style={{ textAlign: 'center', marginBottom: 36 }}>
+          <Link href="/" style={{ fontFamily: 'var(--serif)', fontSize: '1.6rem', fontWeight: 900, color: '#c9a84c', textDecoration: 'none' }}>
+            Grey Parliament
+          </Link>
+          <p style={{ fontSize: 15, color: '#888074', marginTop: 8, fontFamily: 'var(--sans)' }}>
+            Your voice. Your vote. Counts.
+          </p>
+        </div>
+
+        <div style={{ background: '#2c2c2a', borderRadius: 12, padding: '2rem' }}>
+          <h1 style={{ fontFamily: 'var(--serif)', fontSize: 22, fontWeight: 700, color: '#f5f3ee', marginBottom: 24 }}>
+            Join the Parliament
+          </h1>
+          <SignupForm />
+        </div>
+      </div>
+    </main>
+  )
+}

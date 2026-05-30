@@ -1,24 +1,54 @@
 'use client'
 
 import { useState } from 'react'
+import { useRouter } from 'next/navigation'
 import PostcodeLookup from './PostcodeLookup'
 import type { PostcodeResult } from '@/lib/postcode'
 
 type Props = { questionId: string }
 
 export default function VoteForm({ questionId }: Props) {
+  const router = useRouter()
   const [vote, setVote] = useState<'YES' | 'NO' | null>(null)
   const [mp, setMp] = useState<PostcodeResult | null>(null)
+  const [submitting, setSubmitting] = useState(false)
   const [submitted, setSubmitted] = useState(false)
+  const [error, setError] = useState<string | null>(null)
 
-  function handleVote(choice: 'YES' | 'NO') {
-    setVote(choice)
-  }
-
-  function handleSubmit() {
+  async function handleSubmit() {
     if (!vote) return
-    // TODO: POST to /api/vote with { questionId, vote, mpId, constituency }
-    // once auth is wired up.
+    setSubmitting(true)
+    setError(null)
+
+    const res = await fetch('/api/vote', {
+      method: 'POST',
+      headers: { 'Content-Type': 'application/json' },
+      body: JSON.stringify({
+        questionId,
+        vote,
+        mpId: mp?.mpId ?? null,
+        constituency: mp?.constituency ?? null,
+      }),
+    })
+
+    if (res.status === 401) {
+      router.push(`/auth/login?redirect=${encodeURIComponent(window.location.pathname)}`)
+      return
+    }
+
+    if (res.status === 409) {
+      setError('You have already voted on this question.')
+      setSubmitting(false)
+      return
+    }
+
+    if (!res.ok) {
+      const body = await res.json().catch(() => ({}))
+      setError(body.error ?? 'Something went wrong. Please try again.')
+      setSubmitting(false)
+      return
+    }
+
     setSubmitted(true)
   }
 
@@ -49,7 +79,7 @@ export default function VoteForm({ questionId }: Props) {
           {(['YES', 'NO'] as const).map(opt => (
             <button
               key={opt}
-              onClick={() => handleVote(opt)}
+              onClick={() => setVote(opt)}
               style={{
                 flex: 1,
                 padding: '18px',
@@ -81,26 +111,42 @@ export default function VoteForm({ questionId }: Props) {
         <PostcodeLookup onResult={setMp} />
       </div>
 
+      {error && (
+        <p style={{ color: '#e74c3c', fontSize: 14, fontFamily: 'var(--sans)', marginBottom: 12 }}>
+          {error}
+        </p>
+      )}
+
       {/* Submit */}
       <button
         onClick={handleSubmit}
-        disabled={!vote}
+        disabled={!vote || submitting}
         style={{
           width: '100%',
           padding: '16px',
-          background: vote ? '#c9a84c' : '#e8e4dc',
-          color: vote ? '#1a1814' : '#888074',
+          background: vote && !submitting ? '#c9a84c' : '#e8e4dc',
+          color: vote && !submitting ? '#1a1814' : '#888074',
           border: 'none',
           borderRadius: 10,
           fontSize: 16,
           fontWeight: 700,
-          cursor: vote ? 'pointer' : 'not-allowed',
+          cursor: vote && !submitting ? 'pointer' : 'not-allowed',
           fontFamily: 'var(--sans)',
           transition: 'background 0.15s',
         }}
       >
-        {vote ? `Submit my verdict — ${vote === 'YES' ? 'Yes' : 'No'}` : 'Select Yes or No to continue'}
+        {submitting
+          ? 'Submitting…'
+          : vote
+          ? `Submit my verdict — ${vote === 'YES' ? 'Yes' : 'No'}`
+          : 'Select Yes or No to continue'}
       </button>
+
+      <p style={{ fontSize: 12, color: '#888074', textAlign: 'center', marginTop: 12, fontFamily: 'var(--sans)' }}>
+        You must be{' '}
+        <a href="/auth/login" style={{ color: '#c9a84c', textDecoration: 'none' }}>signed in</a>
+        {' '}to submit a verdict.
+      </p>
     </div>
   )
 }
