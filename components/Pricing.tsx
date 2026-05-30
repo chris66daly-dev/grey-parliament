@@ -1,6 +1,15 @@
 'use client'
 
-const PLANS = [
+type Plan = {
+  name: string
+  price: string
+  period: string
+  charity?: string
+  features: string[]
+  featured?: boolean
+}
+
+const PLANS: Plan[] = [
   {
     name: 'Free Member',
     price: '£0',
@@ -9,8 +18,9 @@ const PLANS = [
   },
   {
     name: 'Official Member',
-    price: '£5',
+    price: '£4.99',
     period: 'per month',
+    charity: '£3 of every £4.99 goes to BBC Children in Need',
     features: ['Everything in Free', 'Physical membership card', 'Early access to verdicts', 'Monthly briefing report'],
     featured: true,
   },
@@ -37,7 +47,10 @@ export default function Pricing() {
             }}>
               <div style={{ fontSize: 18, fontWeight: 700, color: plan.featured ? '#1a1814' : '#f5f3ee', marginBottom: 8, fontFamily: 'var(--sans)' }}>{plan.name}</div>
               <div style={{ fontSize: 36, fontWeight: 900, color: plan.featured ? '#1a1814' : '#f5f3ee', fontFamily: 'var(--serif)', marginBottom: 4 }}>{plan.price}</div>
-              <div style={{ fontSize: 13, color: plan.featured ? '#5a4010' : '#888074', marginBottom: 20, fontFamily: 'var(--sans)' }}>{plan.period}</div>
+              <div style={{ fontSize: 13, color: plan.featured ? '#5a4010' : '#888074', marginBottom: plan.charity ? 8 : 20, fontFamily: 'var(--sans)' }}>{plan.period}</div>
+              {plan.charity && (
+                <div style={{ fontSize: 12, color: '#1a1814', marginBottom: 20, fontFamily: 'var(--sans)', fontStyle: 'italic' }}>{plan.charity}</div>
+              )}
               <ul style={{ listStyle: 'none', marginBottom: 24 }}>
                 {plan.features.map(f => (
                   <li key={f} style={{ fontSize: 14, color: plan.featured ? '#1a1814' : '#c8c4bc', marginBottom: 8, fontFamily: 'var(--sans)', paddingLeft: 16, position: 'relative' }}>
