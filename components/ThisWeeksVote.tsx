@@ -7,14 +7,11 @@ async function getActiveQuestion() {
   const client = getSupabase()
   if (!client) return null
 
-  const today = new Date().toISOString().split('T')[0]
-
   const { data, error } = await client
     .from('questions')
     .select('id, text')
     .eq('approved', true)
-    .lte('week_start', today)
-    .order('week_start', { ascending: false })
+    .order('created_at', { ascending: false })
     .limit(1)
     .single()
 
