@@ -65,11 +65,7 @@ export default function SignupForm() {
       body: JSON.stringify({ name: form.name.trim(), postcode: form.postcode.trim() }),
     })
 
-    if (!data.session) {
-      // Email confirmation required — profile will be created after confirmation.
-      window.location.href = '/auth/confirm'
-      return
-    }
+   
 
     // Full page navigation so server components re-render with the new session cookie.
     window.location.href = '/'
