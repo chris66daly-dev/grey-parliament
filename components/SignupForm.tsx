@@ -57,33 +57,35 @@ export default function SignupForm() {
       return
     }
 
-    if (!data.session) {
-      // Email confirmation required — Supabase sent a confirmation email.
-      router.push('/auth/confirm')
-      return
-    }
-
-    // 2. Create profile (runs postcode lookup server-side)
+    // 2. Create profile (runs postcode lookup server-side).
+    // Do this before any redirect so the session cookie is available server-side.
     await fetch('/api/profile', {
       method: 'POST',
       headers: { 'Content-Type': 'application/json' },
       body: JSON.stringify({ name: form.name.trim(), postcode: form.postcode.trim() }),
     })
 
-    router.push('/')
-    router.refresh()
+    if (!data.session) {
+      // Email confirmation required — profile will be created after confirmation.
+      window.location.href = '/auth/confirm'
+      return
+    }
+
+    // Full page navigation so server components re-render with the new session cookie.
+    window.location.href = '/'
   }
 
   return (
     <form onSubmit={handleSubmit} style={{ display: 'flex', flexDirection: 'column', gap: 18 }}>
       <div>
-        <label style={labelStyle}>Full name</label>
+        <label style={labelStyle}>Full name (first and last)</label>
         <input
           required
           type="text"
           value={form.name}
           onChange={set('name')}
-          placeholder="Your name"
+          placeholder="e.g. Jane Smith"
+          autoComplete="name"
           style={inputStyle}
         />
       </div>
