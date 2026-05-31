@@ -1,152 +1,30 @@
-'use client'
-
-import { useState } from 'react'
-import { useRouter } from 'next/navigation'
-import PostcodeLookup from './PostcodeLookup'
-import type { PostcodeResult } from '@/lib/postcode'
-
-type Props = { questionId: string }
-
-export default function VoteForm({ questionId }: Props) {
-  const router = useRouter()
-  const [vote, setVote] = useState<'YES' | 'NO' | null>(null)
-  const [mp, setMp] = useState<PostcodeResult | null>(null)
-  const [submitting, setSubmitting] = useState(false)
-  const [submitted, setSubmitted] = useState(false)
+"use client"
+import { useState } from "react"
+export default function VoteForm({ questionId }: { questionId: string }) {
+  const [vote, setVote] = useState<string | null>(null)
+  const [loading, setLoading] = useState(false)
   const [error, setError] = useState<string | null>(null)
-
-  async function handleSubmit() {
+  async function handleVote() {
     if (!vote) return
-    setSubmitting(true)
+    setLoading(true)
     setError(null)
-
-    const res = await fetch('/api/vote', {
-      method: 'POST',
-      headers: { 'Content-Type': 'application/json' },
-      body: JSON.stringify({
-        questionId,
-        vote,
-        mpId: mp?.mpId ?? null,
-        constituency: mp?.constituency ?? null,
-      }),
-    })
-
-    if (res.status === 401) {
-      router.push(`/auth/login?redirect=${encodeURIComponent(window.location.pathname)}`)
-      return
-    }
-
-    if (res.status === 409) {
-      setError('You have already voted on this question.')
-      setSubmitting(false)
-      return
-    }
-
-    if (!res.ok) {
-      const body = await res.json().catch(() => ({}))
-      setError(body.error ?? 'Something went wrong. Please try again.')
-      setSubmitting(false)
-      return
-    }
-
-    setSubmitted(true)
+    try {
+      const res = await fetch("/api/stripe/checkout", { method: "POST", headers: { "Content-Type": "application/json" }, body: JSON.stringify({ questionId, vote }) })
+      if (res.status === 401) { window.location.href = "/auth/login"; return }
+      const data = await res.json()
+      if (data.url) { window.location.href = data.url } else { setError("Something went wrong.") }
+    } catch { setError("Something went wrong.") } finally { setLoading(false) }
   }
-
-  if (submitted) {
-    return (
-      <div style={{ textAlign: 'center', padding: '2rem 0' }}>
-        <div style={{ fontSize: 40, marginBottom: 12 }}>🏛️</div>
-        <div style={{ fontFamily: 'var(--serif)', fontSize: 22, fontWeight: 700, color: '#1a1814', marginBottom: 8 }}>
-          Verdict cast: {vote === 'YES' ? 'Yes' : 'No'}
-        </div>
-        {mp && (
-          <div style={{ fontSize: 14, color: '#555', fontFamily: 'var(--sans)' }}>
-            Your verdict will be sent to {mp.mpName}, {mp.constituency}.
-          </div>
-        )}
-      </div>
-    )
-  }
-
   return (
     <div>
-      {/* Vote buttons */}
-      <div style={{ marginBottom: 32 }}>
-        <div style={{ fontSize: 12, fontWeight: 600, color: '#888074', letterSpacing: '0.1em', textTransform: 'uppercase', marginBottom: 12, fontFamily: 'var(--sans)' }}>
-          Cast your verdict
-        </div>
-        <div style={{ display: 'flex', gap: 12 }}>
-          {(['YES', 'NO'] as const).map(opt => (
-            <button
-              key={opt}
-              onClick={() => setVote(opt)}
-              style={{
-                flex: 1,
-                padding: '18px',
-                background: vote === opt ? '#1a1814' : '#f5f3ee',
-                color: vote === opt ? '#f5f3ee' : '#1a1814',
-                border: `2px solid ${vote === opt ? '#1a1814' : '#c8c4bc'}`,
-                borderRadius: 10,
-                fontSize: 16,
-                fontWeight: 700,
-                cursor: 'pointer',
-                fontFamily: 'var(--sans)',
-                transition: 'all 0.15s',
-              }}
-            >
-              {opt === 'YES' ? 'Yes' : 'No'}
-            </button>
-          ))}
-        </div>
+      <div style={{ display: "flex", flexDirection: "column", gap: 12, marginBottom: 24 }}>
+        {["Yes", "No"].map(opt => (<button key={opt} onClick={() => setVote(opt)} style={{ padding: "16px 20px", border: vote === opt ? "2px solid #1a1814" : "1px solid #c8c4bc", borderRadius: 8, background: vote === opt ? "#1a1814" : "#fff", color: vote === opt ? "#f5f3ee" : "#1a1814", fontSize: 16, fontWeight: vote === opt ? 700 : 400, cursor: "pointer", textAlign: "left", fontFamily: "var(--sans)" }}>{opt}</button>))}
       </div>
-
-      {/* Postcode lookup */}
-      <div style={{ borderTop: '1px solid #c8c4bc', paddingTop: 24, marginBottom: 24 }}>
-        <div style={{ fontSize: 14, fontWeight: 600, color: '#1a1814', marginBottom: 6, fontFamily: 'var(--sans)' }}>
-          Find your MP
-        </div>
-        <div style={{ fontSize: 13, color: '#888074', marginBottom: 14, fontFamily: 'var(--sans)' }}>
-          We send every verdict directly to your MP. Enter your postcode so we know who to contact.
-        </div>
-        <PostcodeLookup onResult={setMp} />
-      </div>
-
-      {error && (
-        <p style={{ color: '#e74c3c', fontSize: 14, fontFamily: 'var(--sans)', marginBottom: 12 }}>
-          {error}
-        </p>
-      )}
-
-      {/* Submit */}
-      <button
-        onClick={handleSubmit}
-        disabled={!vote || submitting}
-        style={{
-          width: '100%',
-          padding: '16px',
-          background: vote && !submitting ? '#c9a84c' : '#e8e4dc',
-          color: vote && !submitting ? '#1a1814' : '#888074',
-          border: 'none',
-          borderRadius: 10,
-          fontSize: 16,
-          fontWeight: 700,
-          cursor: vote && !submitting ? 'pointer' : 'not-allowed',
-          fontFamily: 'var(--sans)',
-          transition: 'background 0.15s',
-        }}
-      >
-        {submitting
-          ? 'Submitting…'
-          : vote
-          ? `Submit my verdict — ${vote === 'YES' ? 'Yes' : 'No'}`
-          : 'Select Yes or No to continue'}
+      <button onClick={handleVote} disabled={!vote || loading} style={{ padding: "14px 28px", background: vote && !loading ? "#c9a84c" : "#888074", color: "#1a1814", border: "none", borderRadius: 8, fontSize: 16, fontWeight: 700, cursor: vote && !loading ? "pointer" : "not-allowed", fontFamily: "var(--sans)", marginBottom: 16 }}>
+        {loading ? "Taking you to payment..." : vote ? "Cast my verdict — £1" : "Select Yes or No"}
       </button>
-
-      <p style={{ fontSize: 12, color: '#888074', textAlign: 'center', marginTop: 12, fontFamily: 'var(--sans)' }}>
-        You must be{' '}
-        <a href="/auth/login" style={{ color: '#c9a84c', textDecoration: 'none' }}>signed in</a>
-        {' '}to submit a verdict.
-      </p>
+      <p style={{ fontSize: 12, color: "#888074", fontFamily: "var(--sans)", lineHeight: 1.6 }}>80p goes to BBC Children in Need. 20p funds the platform.</p>
+      {error && <p style={{ color: "red", fontSize: 14, marginTop: 8 }}>{error}</p>}
     </div>
   )
 }
