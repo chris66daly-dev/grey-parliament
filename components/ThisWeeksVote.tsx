@@ -1,9 +1,13 @@
+'use client'
+
 import Link from 'next/link'
 import { unstable_noStore as noStore } from 'next/cache'
 import { getSupabase } from '@/lib/supabase'
 
+const OPTIONS = ['Yes', 'No']
+
 async function getActiveQuestion() {
-  noStore() // always fetch fresh — never cache this data
+  noStore()
   const client = getSupabase()
   if (!client) return null
 
@@ -19,13 +23,6 @@ async function getActiveQuestion() {
   return data as { id: string; text: string }
 }
 
-const OPTIONS = [
-  'Yes — it should be a universal right',
-  'No — means testing keeps it fair',
-  'Extend but keep some means testing',
-  'More information needed',
-]
-
 export default async function ThisWeeksVote() {
   const question = await getActiveQuestion()
 
@@ -34,16 +31,12 @@ export default async function ThisWeeksVote() {
   return (
     <section style={{ background: '#f5f3ee', padding: '4rem 1.5rem', borderBottom: '1px solid #c8c4bc' }}>
       <div style={{ maxWidth: 760, margin: '0 auto' }}>
-        <div style={{ fontSize: 11, color: '#888074', letterSpacing: '0.12em', textTransform: 'uppercase', marginBottom: 8, fontFamily: 'var(--sans)' }}>This week's verdict</div>
-        <h2 style={{ fontFamily: 'var(--serif)', fontSize: 'clamp(22px, 3.5vw, 32px)', fontWeight: 700, color: '#1a1814', marginBottom: 24, lineHeight: 1.3 }}>
-          {questionText}
-        </h2>
+        <div style={{ fontSize: 11, color: '#888074', letterSpacing: '0.12em', textTransform: 'uppercase', marginBottom: 8, fontFamily: 'var(--sans)' }}>This week\'s verdict</div>
+        <h2 style={{ fontFamily: 'var(--serif)', fontSize: 'clamp(22px, 3.5vw, 32px)', fontWeight: 700, color: '#1a1814', marginBottom: 24, lineHeight: 1.3 }}>{questionText}</h2>
         {question && (
-          <div style={{ display: 'flex', flexDirection: 'column', gap: 10, marginBottom: 28 }}>
+          <div style={{ display: 'flex', flexDirection: 'column', gap: 12, marginBottom: 24 }}>
             {OPTIONS.map(opt => (
-              <div key={opt} style={{ background: '#fff', border: '1px solid #c8c4bc', borderRadius: 8, padding: '14px 18px', fontSize: 15, color: '#1a1814', fontFamily: 'var(--sans)' }}>
-                {opt}
-              </div>
+              <div key={opt} style={{ border: '1px solid #c8c4bc', borderRadius: 8, padding: '12px 16px', fontSize: 15, color: '#1a1814', fontFamily: 'var(--sans)', background: '#fff' }}>{opt}</div>
             ))}
           </div>
         )}
