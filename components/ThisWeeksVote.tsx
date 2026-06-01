@@ -1,12 +1,13 @@
 import Link from "next/link"
 import { unstable_noStore as noStore } from "next/cache"
-import { getAdmin } from "@/lib/supabase-server-admin"
+import { getSupabaseAdmin } from "@/lib/supabase-server"
 
 async function getActiveQuestion() {
   noStore()
-  const client = getAdmin()
-  const { data, error } = await client.from("questions").select("id, text").eq("approved", true).order("created_at", { ascending: false }).limit(1).single()
-  if (error || !data) return null
+  const client = getSupabaseAdmin()
+  if (!client) return null
+  const { data } = await client.from("questions").select("id, text").eq("approved", true).order("created_at", { ascending: false }).limit(1).maybeSingle()
+  if (!data) return null
   return data as { id: string; text: string }
 }
 
