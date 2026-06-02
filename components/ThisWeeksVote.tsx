@@ -1,11 +1,10 @@
 import Link from "next/link"
 import { unstable_noStore as noStore } from "next/cache"
-import { getSupabaseAdmin } from "@/lib/supabase-server"
+import { getSupabaseServerAuth } from "@/lib/supabase-server"
 
 async function getActiveQuestion() {
   noStore()
-  const client = getSupabaseAdmin()
-  if (!client) return null
+  const client = getSupabaseServerAuth()
   const { data } = await client.from("questions").select("id, text").eq("approved", true).order("created_at", { ascending: false }).limit(1).maybeSingle()
   if (!data) return null
   return data as { id: string; text: string }
