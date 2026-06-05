@@ -1,5 +1,7 @@
+import { Suspense } from 'react'
 import Nav from '@/components/Nav'
 import Hero from '@/components/Hero'
+import StatsBar from '@/components/StatsBar'
 import ThisWeeksVote from '@/components/ThisWeeksVote'
 import HowItWorks from '@/components/HowItWorks'
 import MPTracker from '@/components/MPTracker'
@@ -12,6 +14,9 @@ export default function Home() {
     <main>
       <Nav />
       <Hero />
+      <Suspense fallback={null}>
+        <StatsBar />
+      </Suspense>
       <ThisWeeksVote />
       <HowItWorks />
       <MPTracker />
