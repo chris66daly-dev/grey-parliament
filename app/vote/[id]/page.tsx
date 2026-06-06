@@ -66,6 +66,11 @@ export default async function VoteQuestionPage({ params }: { params: { id: strin
     <main style={{ fontFamily: 'var(--sans)', minHeight: '100vh', background: '#f5f0e8' }}>
       <nav style={{ background: '#1a1814', padding: '16px 40px', display: 'flex', justifyContent: 'space-between', alignItems: 'center' }}>
         <Link href="/" style={{ color: '#c9a84c', fontSize: '1.4rem', fontWeight: 900, textDecoration: 'none', fontFamily: 'var(--serif)' }}>Grey Parliament</Link>
+        <div style={{ display: 'flex', gap: '24px', alignItems: 'center' }}>
+          <Link href="/" style={{ color: '#f5f0e8', fontSize: '0.9rem', textDecoration: 'none' }}>Home</Link>
+          <Link href="/auth/signup" style={{ color: '#c9a84c', fontSize: '0.9rem', textDecoration: 'none', fontWeight: 600 }}>Join</Link>
+          <Link href="/auth/login" style={{ color: '#f5f0e8', fontSize: '0.9rem', textDecoration: 'none' }}>Sign in</Link>
+        </div>
       </nav>
       <section style={{ padding: '60px 24px', maxWidth: 680, margin: '0 auto' }}>
         {question.department_tag && (<div style={{ fontSize: 11, color: '#888074', letterSpacing: '0.15em', textTransform: 'uppercase', marginBottom: 12 }}>{question.department_tag}</div>)}

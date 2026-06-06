@@ -1,8 +1,8 @@
 import { redirect } from "next/navigation"
-import { getSupabaseAdmin } from "@/lib/supabase-server"
+import { getSupabase } from "@/lib/supabase"
 
 export default async function VotePage() {
-  const client = getSupabaseAdmin()
+  const client = getSupabase()
   if (!client) redirect("/")
 
   const { data } = await client
