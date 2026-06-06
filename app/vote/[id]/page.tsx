@@ -2,7 +2,9 @@ import { notFound } from 'next/navigation'
 import { unstable_noStore as noStore } from 'next/cache'
 import Link from 'next/link'
 import { getSupabase } from '@/lib/supabase'
+import { getSupabaseServerAuth } from '@/lib/supabase-server'
 import VoteForm from '@/components/VoteForm'
+import HaveYourSay from '@/components/HaveYourSay'
 
 type PollEntry = { name: string; pct: number }
 type Headline = { title: string; source: string; href: string }
@@ -30,13 +32,36 @@ async function getQuestion(id: string): Promise<Question | null> {
   return data as Question
 }
 
+async function getCurrentUser() {
+  const supabase = getSupabaseServerAuth()
+  const { data: { user } } = await supabase.auth.getUser()
+  if (!user) return { userId: null, userTier: null }
+
+  const { data: profile } = await supabase
+    .from('profiles')
+    .select('tier')
+    .eq('id', user.id)
+    .single()
+
+  return {
+    userId: user.id,
+    userTier: (profile?.tier as string) ?? null,
+  }
+}
+
 export default async function VoteQuestionPage({ params }: { params: { id: string } }) {
-  const question = await getQuestion(params.id)
+  const [question, { userId, userTier }] = await Promise.all([
+    getQuestion(params.id),
+    getCurrentUser(),
+  ])
+
   if (!question) notFound()
+
   const poll = question.poll_json
   const headlines = question.headlines_json
   const youtubeUrl = question.youtube_url
   const hasMedia = youtubeUrl || (poll && poll.length > 0) || (headlines && headlines.length > 0)
+
   return (
     <main style={{ fontFamily: 'var(--sans)', minHeight: '100vh', background: '#f5f0e8' }}>
       <nav style={{ background: '#1a1814', padding: '16px 40px', display: 'flex', justifyContent: 'space-between', alignItems: 'center' }}>
@@ -46,6 +71,12 @@ export default async function VoteQuestionPage({ params }: { params: { id: strin
         {question.department_tag && (<div style={{ fontSize: 11, color: '#888074', letterSpacing: '0.15em', textTransform: 'uppercase', marginBottom: 12 }}>{question.department_tag}</div>)}
         <h1 style={{ fontFamily: 'var(--serif)', fontSize: 'clamp(1.5rem, 3.5vw, 2.2rem)', fontWeight: 700, color: '#1a1814', lineHeight: 1.3, marginBottom: 36 }}>{question.text}</h1>
         <VoteForm questionId={question.id} />
+
+        <HaveYourSay
+          questionId={question.id}
+          userTier={userTier}
+          userId={userId}
+        />
       </section>
       {hasMedia && (
         <section style={{ padding: '0 24px 60px', maxWidth: 680, margin: '0 auto' }}>
