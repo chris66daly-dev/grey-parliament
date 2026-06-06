@@ -29,7 +29,7 @@ export default async function Nav() {
             <span style={{ fontSize: 13, color: '#888074', fontFamily: 'var(--sans)' }}>
               {userEmail}
             </span>
-            <SignOutButton />
+            <Link href="/account" style={{ color: "#888074", fontSize: 13, textDecoration: "none", fontFamily: "var(--sans)" }}>My Account</Link><SignOutButton />
           </>
         ) : (
           <>
