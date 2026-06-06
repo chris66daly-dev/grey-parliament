@@ -8,7 +8,7 @@ export default function Footer() {
           <div>
             <div style={{ fontFamily: 'var(--serif)', fontSize: 20, fontWeight: 700, color: '#c9a84c', marginBottom: 8 }}>Grey Parliament</div>
             <div style={{ fontSize: 13, color: '#888074', fontFamily: 'var(--sans)', maxWidth: 260, lineHeight: 1.6 }}>
-              The independent political voice of the over 50s. No party. No agenda. Just experience.
+              We represent No Political Party. We have No Political Agenda. Your voice. Your kids. Our Country.
             </div>
           </div>
           <div style={{ display: 'flex', gap: 32 }}>
