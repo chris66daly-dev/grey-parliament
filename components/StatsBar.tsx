@@ -4,13 +4,13 @@ async function getStats() {
   const client = getSupabaseAdmin()
   if (!client) return { members: 0, votes: 0, charityPence: 0 }
 
-  const [membersResult, votesResult, cinResult] = await Promise.all([
+  const [membersResult, votesResult, charityResult] = await Promise.all([
     client.from("profiles").select("*", { count: "exact", head: true }),
     client.from("votes").select("*", { count: "exact", head: true }),
-    client.from("cin_total").select("amount_pence"),
+    client.from("charity_total").select("amount_pence"),
   ])
 
-  const charityPence = (cinResult.data ?? []).reduce(
+  const charityPence = (charityResult.data ?? []).reduce(
     (sum: number, row: { amount_pence: number }) => sum + (row.amount_pence ?? 0),
     0
   )
