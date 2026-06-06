@@ -20,7 +20,7 @@ const PLANS: Plan[] = [
     name: 'GMP — Grey Member of Parliament',
     price: '£4.99',
     period: 'per month',
-    charity: 'You shape where the money goes. You choose the questions. You govern this.,
+    charity: 'You shape where the money goes. You choose the questions. You govern this.',
     features: ['Everything in Free', 'Downloadable GMP certificate', 'Early access to verdicts', 'Monthly briefing report'],
     featured: true,
   },
