@@ -72,9 +72,6 @@ export default async function VoteQuestionPage({ params }: { params: { id: strin
         <h1 style={{ fontFamily: 'var(--serif)', fontSize: 'clamp(1.5rem, 3.5vw, 2.2rem)', fontWeight: 700, color: '#1a1814', lineHeight: 1.3, marginBottom: 36 }}>{question.text}</h1>
         <VoteForm questionId={question.id} />
 
-        <div style={{ background: 'red', color: 'white', padding: 8 }}>
-          DEBUG: userId={userId ?? 'null'} userTier={userTier ?? 'null'} questionId={question.id}
-        </div>
         <HaveYourSay
           questionId={question.id}
           userTier={userTier}
