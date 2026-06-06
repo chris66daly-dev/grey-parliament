@@ -14,14 +14,14 @@ const PLANS: Plan[] = [
     name: 'Free Member',
     price: '£0',
     period: 'forever',
-    features: ['One vote per week', 'See live results', 'Your verdict sent to your MP'],
+    features: ['One free vote on this week\'s question', '£1 per vote after that — 60p goes straight to charity', 'See live results', 'Your verdict sent to your MP'],
   },
   {
     name: 'GMP — Grey Member of Parliament',
     price: '£4.99',
     period: 'per month',
-    charity: 'You shape where the money goes. You choose the questions. You govern this.',
-    features: ['Everything in Free', 'Downloadable GMP certificate', 'Early access to verdicts', 'Monthly briefing report'],
+    charity: 'Vote every week anyway? 4-5 votes = £4-5. For £4.99 you get all that AND you govern this place.',
+    features: ['Unlimited weekly votes included', 'Vote on which questions get asked', 'Vote on which charities receive the fund', 'Shape how Grey Parliament works — democratically', 'Downloadable GMP certificate', 'Monthly briefing report'],
     featured: true,
   },
 ]

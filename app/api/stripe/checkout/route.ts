@@ -21,7 +21,7 @@ export async function POST(req: NextRequest) {
         currency: "gbp",
         product_data: {
           name: "Grey Parliament — Cast Your Verdict",
-          description: "80p goes to BBC Children in Need. 20p funds the platform. Once revenues are secured, 100% goes to Children in Need.",
+          description: "60p goes to charity chosen by members. 18.5p funds the platform. 21.5p covers payment processing.",
         },
         unit_amount: 100,
       },
