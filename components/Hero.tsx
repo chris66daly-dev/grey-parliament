@@ -5,7 +5,7 @@ export default function Hero() {
     <section style={{ background: '#1a1814', padding: '6rem 1.5rem 5rem', textAlign: 'center' }}>
       <div style={{ maxWidth: 760, margin: '0 auto' }}>
         <div style={{ fontSize: 11, color: '#888074', letterSpacing: '0.18em', textTransform: 'uppercase', marginBottom: 20, fontFamily: 'var(--sans)' }}>
-          The independent political voice of the over 50s. Verify you are 50 or over. Of sound mind and a responsible adult.
+          The independent political voice of the over 50s
         </div>
         <h1 style={{ fontFamily: 'var(--serif)', fontSize: 'clamp(36px, 6vw, 64px)', fontWeight: 900, color: '#f5f3ee', lineHeight: 1.1, marginBottom: 24 }}>
           Grey Parliament

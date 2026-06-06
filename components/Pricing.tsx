@@ -20,8 +20,8 @@ const PLANS: Plan[] = [
     name: 'Official Member',
     price: '£4.99',
     period: 'per month',
-    charity: '£3 of every £4.99 goes to BBC Children in Need',
-    features: ['Everything in Free', 'Physical membership card', 'Early access to verdicts', 'Monthly briefing report'],
+    charity: '60p of every £1 vote goes to charity — chosen by members',
+    features: ['Everything in Free', 'Downloadable membership certificate', 'Early access to verdicts', 'Monthly briefing report'],
     featured: true,
   },
 ]

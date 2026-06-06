@@ -1,5 +1,5 @@
 const STEPS = [
-  { n: 1, title: 'Join', body: 'Verify you are 50 or over. No party membership. No agenda. Just your experience.' },
+  { n: 1, title: 'Join', body: 'Verify you are 50 or over. Verify you are 50 or over. Of sound mind and a responsible adult — This Country Needs You.' },
   { n: 2, title: 'Vote', body: 'Each week a new question. One member, one vote. Results are tallied in real time.' },
   { n: 3, title: 'We send the verdict', body: 'Within 24 hours, the result goes to your MP and the relevant minister. No exceptions.' },
 ]
