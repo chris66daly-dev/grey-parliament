@@ -17,6 +17,9 @@ export default function VoteForm({ questionId }: { questionId: string }) {
     setLoading(true)
     setError(null)
     try {
+      const freeRes = await fetch("/api/vote/free", { method: "POST", headers: { "Content-Type": "application/json" }, body: JSON.stringify({ questionId, vote }) })
+      if (freeRes.status === 401) { window.location.href = "/auth/login"; return }
+      if (freeRes.ok) { window.location.href = "/success"; return }
       const res = await fetch("/api/stripe/checkout", { method: "POST", headers: { "Content-Type": "application/json" }, body: JSON.stringify({ questionId, vote }) })
       if (res.status === 401) { window.location.href = "/auth/login"; return }
       const data = await res.json()
