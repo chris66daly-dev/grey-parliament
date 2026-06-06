@@ -17,11 +17,11 @@ const PLANS: Plan[] = [
     features: ['One vote per week', 'See live results', 'Your verdict sent to your MP'],
   },
   {
-    name: 'Official Member',
+    name: 'GMP — Grey Member of Parliament',
     price: '£4.99',
     period: 'per month',
-    charity: '60p of every £1 vote goes to charity — chosen by members',
-    features: ['Everything in Free', 'Downloadable membership certificate', 'Early access to verdicts', 'Monthly briefing report'],
+    charity: 'You shape where the money goes. You choose the questions. You govern this.,
+    features: ['Everything in Free', 'Downloadable GMP certificate', 'Early access to verdicts', 'Monthly briefing report'],
     featured: true,
   },
 ]
@@ -70,7 +70,7 @@ export default function Pricing() {
                 cursor: 'pointer',
                 fontFamily: 'var(--sans)',
               }}>
-                {plan.price === '£0' ? 'Join free' : 'Become an official member'}
+                {plan.price === '£0' ? 'Join free' : 'Take your seat'}
               </button>
             </div>
           ))}
