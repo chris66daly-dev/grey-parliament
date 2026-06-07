@@ -10,12 +10,11 @@ interface Props {
   constituency: string | null;
 }
 
-const EXAMPLE_QUESTIONS = [
+const PLACEHOLDER_SUGGESTIONS = [
   "What are the strongest arguments for voting Yes?",
   "What are the strongest arguments for voting No?",
   "What has this MP actually done on this issue?",
   "Explain this issue simply — what does it mean for me?",
-  "What do independent experts say about this question?",
 ];
 
 const ENGAGEMENT_PHRASES = [
@@ -26,17 +25,17 @@ const ENGAGEMENT_PHRASES = [
 ];
 
 export default function AskTheSpeaker({ questionId, questionText, userId, firstName, constituency }: Props) {
+  const [expanded, setExpanded] = useState(false);
+  const [inputQuestion, setInputQuestion] = useState('');
   const [customQuestion, setCustomQuestion] = useState('');
   const [answer, setAnswer] = useState('');
   const [loading, setLoading] = useState(false);
   const [submitted, setSubmitted] = useState(false);
   const [submitPhrase, setSubmitPhrase] = useState('');
-  const [activeQuestion, setActiveQuestion] = useState('');
 
   const askQuestion = async (q: string) => {
     if (!q.trim()) return;
     setLoading(true);
-    setActiveQuestion(q);
     setAnswer('');
     try {
       const res = await fetch('/api/speaker', {
@@ -81,20 +80,47 @@ export default function AskTheSpeaker({ questionId, questionText, userId, firstN
         <p style={{ fontSize: '0.9rem', color: '#888074', lineHeight: 1.6 }}>The Speaker offers balanced, factual insight — never tells you how to vote. The verdict is always yours.</p>
       </div>
 
-      <div style={{ marginBottom: '24px' }}>
-        <div style={{ fontSize: '12px', color: '#888074', marginBottom: '12px', textTransform: 'uppercase', letterSpacing: '0.1em' }}>Ask a question</div>
-        <div style={{ display: 'flex', flexDirection: 'column', gap: '8px' }}>
-          {EXAMPLE_QUESTIONS.map((q) => (
+      {!expanded ? (
+        <button
+          onClick={() => setExpanded(true)}
+          style={{ display: 'flex', alignItems: 'center', gap: '10px', padding: '14px 24px', background: '#1a1814', color: '#f5f0e8', border: 'none', borderRadius: '10px', cursor: 'pointer', fontSize: '1rem', fontWeight: 600, fontFamily: 'var(--sans)', marginBottom: '24px' }}
+        >
+          <span style={{ fontSize: '1.3rem' }}>🏛️</span>
+          Ask the Speaker
+        </button>
+      ) : (
+        <div style={{ marginBottom: '24px' }}>
+          <div style={{ display: 'flex', gap: '10px', marginBottom: '10px' }}>
+            <input
+              type="text"
+              value={inputQuestion}
+              onChange={e => setInputQuestion(e.target.value)}
+              onKeyDown={e => { if (e.key === 'Enter' && inputQuestion.trim()) askQuestion(inputQuestion); }}
+              placeholder={PLACEHOLDER_SUGGESTIONS[Math.floor(Date.now() / 10000) % PLACEHOLDER_SUGGESTIONS.length]}
+              style={{ flex: 1, padding: '12px 16px', border: '1px solid #c8c4bc', borderRadius: '8px', fontSize: '0.9rem', fontFamily: 'var(--sans)', background: '#fff', color: '#1a1814', outline: 'none' }}
+              autoFocus
+            />
             <button
-              key={q}
-              onClick={() => askQuestion(q)}
-              style={{ textAlign: 'left', padding: '12px 16px', background: activeQuestion === q ? '#1a1814' : '#fff', color: activeQuestion === q ? '#f5f0e8' : '#1a1814', border: '1px solid #e8e4dc', borderRadius: '8px', cursor: 'pointer', fontSize: '0.9rem', lineHeight: 1.4 }}
+              onClick={() => askQuestion(inputQuestion)}
+              disabled={!inputQuestion.trim() || loading}
+              style={{ padding: '12px 20px', background: inputQuestion.trim() && !loading ? '#1a1814' : '#888074', color: '#f5f0e8', border: 'none', borderRadius: '8px', cursor: inputQuestion.trim() && !loading ? 'pointer' : 'not-allowed', fontSize: '0.9rem', fontWeight: 600, fontFamily: 'var(--sans)', whiteSpace: 'nowrap' }}
             >
-              {q}
+              {loading ? 'Asking...' : 'Ask →'}
             </button>
-          ))}
+          </div>
+          <div style={{ display: 'flex', flexWrap: 'wrap', gap: '6px' }}>
+            {PLACEHOLDER_SUGGESTIONS.map(s => (
+              <button
+                key={s}
+                onClick={() => { setInputQuestion(s); askQuestion(s); }}
+                style={{ padding: '6px 12px', background: '#f5f0e8', border: '1px solid #e8e4dc', borderRadius: '20px', fontSize: '11px', color: '#888074', cursor: 'pointer', fontFamily: 'var(--sans)' }}
+              >
+                {s}
+              </button>
+            ))}
+          </div>
         </div>
-      </div>
+      )}
 
       {loading && (
         <div style={{ background: '#f5f0e8', borderRadius: '12px', padding: '24px', marginBottom: '24px' }}>
