@@ -19,9 +19,8 @@ export default function RootLayout({ children }: { children: React.ReactNode }) 
     <html lang="en">
       <body>
         <div style={{background:"#c9a84c",padding:"8px 24px",textAlign:"center",fontFamily:"sans-serif",fontSize:13,color:"#1a1814",fontWeight:600}}>We are not perfect. Neither is democracy. But we are both worth fighting for. 🏛️</div>
-        {children}
-        <div style={{ paddingBottom: '80px' }} />
         <ActionBar />
+        {children}
       </body>
     </html>
   )
