@@ -1,5 +1,6 @@
 import type { Metadata } from 'next'
 import './globals.css'
+import ActionBar from '@/components/ActionBar'
 
 export const metadata: Metadata = {
   title: 'Grey Parliament — Your Voice Matters',
@@ -16,7 +17,12 @@ export const metadata: Metadata = {
 export default function RootLayout({ children }: { children: React.ReactNode }) {
   return (
     <html lang="en">
-      <body><div style={{background:"#c9a84c",padding:"8px 24px",textAlign:"center",fontFamily:"sans-serif",fontSize:13,color:"#1a1814",fontWeight:600}}>We are not perfect. Neither is democracy. But we are both worth fighting for. 🏛️</div>{children}</body>
+      <body>
+        <div style={{background:"#c9a84c",padding:"8px 24px",textAlign:"center",fontFamily:"sans-serif",fontSize:13,color:"#1a1814",fontWeight:600}}>We are not perfect. Neither is democracy. But we are both worth fighting for. 🏛️</div>
+        {children}
+        <div style={{ paddingBottom: '80px' }} />
+        <ActionBar />
+      </body>
     </html>
   )
 }
