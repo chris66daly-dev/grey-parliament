@@ -69,7 +69,7 @@ export default function HaveYourSay({ questionId, userTier, userId }: Props) {
   const isGMP = userTier === 'gmp';
 
   return (
-    <section className="mt-12 border-t border-gray-200 pt-8">
+    <section id="have-your-say" className="mt-12 border-t border-gray-200 pt-8">
       <div className="flex items-center justify-between mb-6">
         <h2 className="text-2xl font-bold text-gray-900">Have Your Say</h2>
         <div className="flex gap-2">
@@ -153,6 +153,15 @@ export default function HaveYourSay({ questionId, userTier, userId }: Props) {
           ))}
         </div>
       )}
+
+      <div style={{ textAlign: 'center', marginTop: '32px', paddingTop: '24px', borderTop: '1px solid #e8e4dc' }}>
+        <button
+          onClick={() => window.scrollTo({ top: 0, behavior: 'smooth' })}
+          style={{ background: '#c9a84c', color: '#1a1814', padding: '12px 28px', borderRadius: '6px', fontWeight: 700, border: 'none', cursor: 'pointer', fontSize: '0.95rem', fontFamily: 'var(--sans)' }}
+        >
+          ↑ Cast my verdict
+        </button>
+      </div>
     </section>
   );
 }

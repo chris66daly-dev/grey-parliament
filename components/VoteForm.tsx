@@ -61,9 +61,34 @@ export default function VoteForm({ questionId }: { questionId: string }) {
         }
       `}</style>
 
-      <button onClick={handleVote} disabled={!vote || loading} style={{ padding: "14px 28px", background: vote && !loading ? "#c9a84c" : "#888074", color: "#1a1814", border: "none", borderRadius: 8, fontSize: 16, fontWeight: 700, cursor: vote && !loading ? "pointer" : "not-allowed", fontFamily: "var(--sans)", marginBottom: 12 }}>
-        {loading ? "Taking you to payment..." : vote ? "Cast my verdict — £1" : "Select Yes or No"}
-      </button>
+      {vote && !loading && (
+        <div style={{ background: "#f0ece4", border: "1px solid #c9a84c", borderRadius: 8, padding: "14px 16px", marginBottom: 12, fontFamily: "var(--sans)" }}>
+          <p style={{ fontSize: 14, color: "#1a1814", fontWeight: 600, margin: "0 0 10px" }}>
+            Want to see what others are saying first?
+          </p>
+          <div style={{ display: "flex", gap: 10, flexWrap: "wrap" }}>
+            <button
+              onClick={() => document.getElementById("have-your-say")?.scrollIntoView({ behavior: "smooth" })}
+              style={{ padding: "10px 18px", background: "#1a1814", color: "#c9a84c", border: "none", borderRadius: 6, fontSize: 13, fontWeight: 700, cursor: "pointer", fontFamily: "var(--sans)" }}
+            >
+              Read the debate ↓
+            </button>
+            <button
+              onClick={handleVote}
+              disabled={loading}
+              style={{ padding: "10px 18px", background: "#c9a84c", color: "#1a1814", border: "none", borderRadius: 6, fontSize: 13, fontWeight: 700, cursor: "pointer", fontFamily: "var(--sans)" }}
+            >
+              {loading ? "Taking you to payment..." : "Cast my verdict — £1"}
+            </button>
+          </div>
+        </div>
+      )}
+
+      {!vote && (
+        <button disabled style={{ padding: "14px 28px", background: "#888074", color: "#1a1814", border: "none", borderRadius: 8, fontSize: 16, fontWeight: 700, cursor: "not-allowed", fontFamily: "var(--sans)", marginBottom: 12, width: "100%" }}>
+          Select Yes or No
+        </button>
+      )}
 
       <p style={{ fontSize: 12, color: "#888074", fontFamily: "var(--sans)", lineHeight: 1.6, fontStyle: "italic" }}>
         Yes — a payment company takes more than we do. We think that&apos;s wrong too. But we&apos;d rather be honest about it than hide it in small print.
