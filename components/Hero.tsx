@@ -9,50 +9,45 @@ export default function Hero() {
             <img
               src="/grey-parliament-logo.png"
               alt="Grey Parliament Seal"
-              style={{ width: '200px', height: '200px', objectFit: 'contain' }}
+              style={{ width: '180px', height: '180px', objectFit: 'contain' }}
             />
           </div>
-          <div style={{ fontSize: 11, color: '#888074', letterSpacing: '0.18em', textTransform: 'uppercase', marginBottom: 20, fontFamily: 'var(--sans)' }}>
-            The independent political voice of the over 50s
-          </div>
-          <h1 style={{ fontFamily: 'var(--serif)', fontSize: 'clamp(36px, 6vw, 64px)', fontWeight: 900, color: '#f5f3ee', lineHeight: 1.1, marginBottom: 24 }}>
-            Grey Parliament
-          </h1>
-          <p style={{ fontSize: 'clamp(16px, 2vw, 20px)', color: '#c8c4bc', lineHeight: 1.7, marginBottom: 40, fontFamily: 'var(--sans)', maxWidth: 580, margin: '0 auto 40px' }}>
-            Everyone has a view. Party members, independents, first-timers. All welcome. Your affiliation is your business. Your vote is your voice.
+          <div style={{ fontSize: 11, color: '#888074', letterSpacing: '0.15em', textTransform: 'uppercase', marginBottom: '16px' }}>The Independent Political Voice of the Over 50s</div>
+          <h1 style={{ fontFamily: 'var(--serif)', fontSize: 'clamp(2.2rem, 5vw, 3.5rem)', fontWeight: 900, color: '#f5f0e8', lineHeight: 1.15, marginBottom: '24px' }}>Grey Parliament</h1>
+          <p style={{ fontSize: '1.1rem', color: '#c8c4bc', lineHeight: 1.7, marginBottom: '16px', maxWidth: 540, margin: '0 auto 16px' }}>
+            Everyone has a view. Party members, independents, first-timers.<br />
+            All welcome. Your affiliation is your business. Your vote is your voice.
+          </p>
+          <p style={{ fontSize: '0.95rem', color: '#c9a84c', marginBottom: '40px', fontStyle: 'italic' }}>
+            Your first vote is free. After that, £1 — and most of it goes straight to charity.
           </p>
           <div style={{ display: 'flex', gap: 14, justifyContent: 'center', flexWrap: 'wrap' }}>
-            <Link href="/#join" style={{ background: '#c9a84c', color: '#1a1814', padding: '14px 32px', borderRadius: 8, fontSize: 16, fontWeight: 700, textDecoration: 'none', fontFamily: 'var(--sans)' }}>
-              Join the Parliament
+            <Link href="/auth/signup" style={{ background: '#c9a84c', color: '#1a1814', padding: '14px 32px', borderRadius: '6px', fontWeight: 700, textDecoration: 'none', fontSize: '1rem' }}>
+              Join the Parliament — it's free
             </Link>
-            <Link href="/vote" style={{ border: '1px solid #3a3a38', color: '#c8c4bc', padding: '14px 32px', borderRadius: 8, fontSize: 16, textDecoration: 'none', fontFamily: 'var(--sans)' }}>
+            <Link href="/vote" style={{ border: '1px solid #3a3a38', color: '#c8c4bc', padding: '14px 32px', borderRadius: '6px', textDecoration: 'none', fontSize: '1rem' }}>
               This week's vote →
             </Link>
           </div>
         </div>
       </section>
 
-      <div style={{ width: '100%', position: 'relative', overflow: 'hidden', maxHeight: '400px' }}>
-        <img
-          src="/grey-parliament-banner.png"
-          alt="Four Nations. One Verdict."
-          style={{ width: '100%', objectFit: 'cover', display: 'block' }}
-        />
-      </div>
-
-      <section style={{ background: '#1a1814', padding: '60px 24px' }}>
+      <section style={{ background: '#1a1814', borderTop: '1px solid #2a2520', padding: '60px 24px' }}>
         <div style={{ maxWidth: '680px', margin: '0 auto', textAlign: 'center' }}>
           <div style={{ fontSize: '11px', color: '#888074', letterSpacing: '0.15em', textTransform: 'uppercase', marginBottom: '16px' }}>This Week's Debate</div>
-          <h2 style={{ fontFamily: 'var(--serif)', fontSize: '1.6rem', color: '#f5f0e8', marginBottom: '32px', fontWeight: 700 }}>What are people saying?</h2>
+          <h2 style={{ fontFamily: 'var(--serif)', fontSize: '1.4rem', color: '#f5f0e8', marginBottom: '8px', fontWeight: 700 }}>What are members saying?</h2>
+          <p style={{ color: '#888074', fontSize: '0.85rem', marginBottom: '32px' }}>Join the debate. Cast your verdict. Your MP will hear the result.</p>
           <div style={{ background: '#2a2520', border: '1px solid #3a3530', borderRadius: '12px', padding: '24px', marginBottom: '16px', textAlign: 'left' }}>
             <p style={{ color: '#c8c4bc', fontSize: '0.95rem', lineHeight: 1.6, fontStyle: 'italic', marginBottom: '12px' }}>"The debate has barely started and already politicians are spinning this as a referendum on their leadership. We deserve straight answers."</p>
-            <span style={{ fontSize: '11px', color: '#888074' }}>Verified GMP · Manchester</span>
+            <span style={{ fontSize: '11px', color: '#888074' }}>Verified Member · Greater Manchester</span>
           </div>
           <div style={{ background: '#2a2520', border: '1px solid #3a3530', borderRadius: '12px', padding: '24px', marginBottom: '32px', textAlign: 'left' }}>
             <p style={{ color: '#c8c4bc', fontSize: '0.95rem', lineHeight: 1.6, fontStyle: 'italic', marginBottom: '12px' }}>"I've voted Labour all my life. This feels like a coronation, not a by-election. Grey Parliament is the first place I've felt heard."</p>
-            <span style={{ fontSize: '11px', color: '#888074' }}>Verified GMP · Leeds</span>
+            <span style={{ fontSize: '11px', color: '#888074' }}>Verified Member · West Yorkshire</span>
           </div>
-          <a href="/vote" style={{ display: 'inline-block', background: '#c9a84c', color: '#1a1814', padding: '14px 32px', borderRadius: '6px', fontWeight: 700, textDecoration: 'none', fontSize: '1rem' }}>Join the debate →</a>
+          <Link href="/vote" style={{ display: 'inline-block', background: '#c9a84c', color: '#1a1814', padding: '14px 32px', borderRadius: '6px', fontWeight: 700, textDecoration: 'none', fontSize: '1rem' }}>
+            Have your say →
+          </Link>
         </div>
       </section>
     </>

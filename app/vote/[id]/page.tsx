@@ -5,6 +5,8 @@ import { getSupabase } from '@/lib/supabase'
 import { getSupabaseServerAuth } from '@/lib/supabase-server'
 import VoteForm from '@/components/VoteForm'
 import HaveYourSay from '@/components/HaveYourSay'
+import NewsFeed from '@/components/NewsFeed'
+import AskTheSpeaker from '@/components/AskTheSpeaker'
 
 type PollEntry = { name: string; pct: number }
 type Headline = { title: string; source: string; href: string }
@@ -35,22 +37,24 @@ async function getQuestion(id: string): Promise<Question | null> {
 async function getCurrentUser() {
   const supabase = getSupabaseServerAuth()
   const { data: { user } } = await supabase.auth.getUser()
-  if (!user) return { userId: null, userTier: null }
+  if (!user) return { userId: null, userTier: null, firstName: null, userConstituency: null }
 
   const { data: profile } = await supabase
     .from('profiles')
-    .select('tier')
+    .select('tier, first_name, constituency')
     .eq('id', user.id)
     .single()
 
   return {
     userId: user.id,
     userTier: (profile?.tier as string) ?? null,
+    firstName: profile?.first_name ?? null,
+    userConstituency: profile?.constituency ?? null,
   }
 }
 
 export default async function VoteQuestionPage({ params }: { params: { id: string } }) {
-  const [question, { userId, userTier }] = await Promise.all([
+  const [question, { userId, userTier, firstName, userConstituency }] = await Promise.all([
     getQuestion(params.id),
     getCurrentUser(),
   ])
@@ -65,7 +69,10 @@ export default async function VoteQuestionPage({ params }: { params: { id: strin
   return (
     <main style={{ fontFamily: 'var(--sans)', minHeight: '100vh', background: '#f5f0e8' }}>
       <nav style={{ background: '#1a1814', padding: '16px 40px', display: 'flex', justifyContent: 'space-between', alignItems: 'center' }}>
-        <Link href="/" style={{ color: '#c9a84c', fontSize: '1.4rem', fontWeight: 900, textDecoration: 'none', fontFamily: 'var(--serif)' }}>Grey Parliament</Link>
+        <Link href="/" style={{ color: '#c9a84c', fontSize: '1.4rem', fontWeight: 900, textDecoration: 'none', fontFamily: 'var(--serif)', display: 'flex', alignItems: 'center' }}>
+          <img src="/grey-parliament-logo.png" alt="" style={{ height: '36px', width: '36px', objectFit: 'contain', marginRight: '10px' }} />
+          Grey Parliament
+        </Link>
         <div style={{ display: 'flex', gap: '24px', alignItems: 'center' }}>
           <Link href="/" style={{ color: '#f5f0e8', fontSize: '0.9rem', textDecoration: 'none' }}>Home</Link>
           <Link href="/auth/signup" style={{ color: '#c9a84c', fontSize: '0.9rem', textDecoration: 'none', fontWeight: 600 }}>Join</Link>
@@ -83,6 +90,13 @@ export default async function VoteQuestionPage({ params }: { params: { id: strin
           userId={userId}
         />
       </section>
+      <AskTheSpeaker
+        questionId={question.id}
+        questionText={question.text}
+        userId={userId}
+        firstName={firstName}
+        constituency={userConstituency}
+      />
       {hasMedia && (
         <section style={{ padding: '0 24px 60px', maxWidth: 680, margin: '0 auto' }}>
           <div style={{ borderTop: '1px solid #e8e4dc', paddingTop: 40 }}>

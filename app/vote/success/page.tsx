@@ -75,6 +75,12 @@ export default async function VoteSuccess() {
         <h1 style={{ fontFamily: 'var(--serif)', fontSize: 'clamp(28px, 4vw, 40px)', color: '#f5f3ee', marginBottom: 16 }}>
           Verdict Cast
         </h1>
+        <p style={{ fontSize: 18, color: '#c9a84c', fontStyle: 'italic', marginBottom: 8 }}>
+          Your vote matters. It's on its way to your MP.
+        </p>
+        <p style={{ fontSize: 15, color: '#888074', marginBottom: 24 }}>
+          Thank you for being part of this. I hear you.
+        </p>
 
         {mp ? (
           <>
@@ -119,7 +125,7 @@ export default async function VoteSuccess() {
         )}
 
         <p style={{ fontSize: 13, color: '#888074', lineHeight: 1.6, marginBottom: 32 }}>
-          60p of your £1 goes to BBC Children in Need. The rest funds the platform and payment processing.
+          60p of your £1 goes directly to charity — chosen by members every November. The rest funds the platform and payment processing.
         </p>
 
         <a href="/" style={{ background: '#c9a84c', color: '#1a1814', padding: '12px 28px', borderRadius: 8, fontWeight: 700, textDecoration: 'none', fontSize: 15 }}>
