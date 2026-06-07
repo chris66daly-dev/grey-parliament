@@ -16,11 +16,11 @@ export default function Hero() {
           <h1 style={{ fontFamily: 'var(--serif)', fontSize: 'clamp(2.4rem, 5vw, 3.8rem)', fontWeight: 900, color: '#f5f0e8', lineHeight: 1.1, marginBottom: '20px' }}>
             Your Country<br />Needs You.
           </h1>
-          <p style={{ fontSize: '1.15rem', color: '#c8c4bc', lineHeight: 1.7, maxWidth: 520, margin: '0 auto 12px' }}>
-            Forty years of taxes. Forty years of service. Forty years of being told your generation is the problem.
+          <p style={{ fontSize: '1.05rem', color: '#c8c4bc', lineHeight: 1.8, maxWidth: 560, margin: '0 auto 8px', fontStyle: 'italic' }}>
+            "We built this country. We staffed its hospitals, taught its children, laid its roads, and paid into its systems for forty years. We were promised a society that would look after us, our kids and our grandkids in return. We are still waiting."
           </p>
-          <p style={{ fontSize: '1.1rem', color: '#f5f0e8', lineHeight: 1.7, maxWidth: 520, margin: '0 auto 36px', fontWeight: 600 }}>
-            Time to have your say. One vote. One pound. Straight to your MP.
+          <p style={{ fontSize: '0.8rem', color: '#888074', marginBottom: '36px', letterSpacing: '0.05em' }}>
+            — The founding statement of Grey Parliament
           </p>
           <div style={{ display: 'flex', gap: 14, justifyContent: 'center', flexWrap: 'wrap', marginBottom: '20px' }}>
             <Link href="/auth/signup" style={{ background: '#c9a84c', color: '#1a1814', padding: '16px 36px', borderRadius: '6px', fontWeight: 700, textDecoration: 'none', fontSize: '1.05rem', letterSpacing: '0.02em' }}>
