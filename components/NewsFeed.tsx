@@ -35,7 +35,7 @@ export default function NewsFeed() {
   if (news.length === 0) return null;
 
   return (
-    <section style={{ background: '#f5f0e8', borderTop: '1px solid #e8e4dc', padding: '40px 24px' }}>
+    <section id="news" style={{ background: '#f5f0e8', borderTop: '1px solid #e8e4dc', padding: '40px 24px' }}>
       <div style={{ maxWidth: 680, margin: '0 auto' }}>
         <div style={{ display: 'flex', alignItems: 'center', justifyContent: 'space-between', marginBottom: '20px' }}>
           <div style={{ fontSize: '11px', color: '#888074', letterSpacing: '0.15em', textTransform: 'uppercase' }}>Latest Political News</div>

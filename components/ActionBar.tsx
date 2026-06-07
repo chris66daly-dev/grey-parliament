@@ -32,7 +32,7 @@ const actions = [
     id: 'news',
     icon: '📰',
     label: 'Latest News',
-    description: 'Live political headlines from BBC Politics and The Guardian, refreshed every 30 minutes.',
+    description: 'Live political headlines from BBC Politics and The Guardian on our homepage, refreshed every 30 minutes.',
     href: '/#news',
     cta: 'Read Now',
   },
