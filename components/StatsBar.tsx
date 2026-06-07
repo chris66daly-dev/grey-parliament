@@ -7,7 +7,7 @@ async function getStats() {
   const [membersResult, votesResult, charityResult] = await Promise.all([
     client.from("profiles").select("*", { count: "exact", head: true }),
     client.from("votes").select("*", { count: "exact", head: true }),
-    client.from("charity_total").select("amount_pence"),
+    client.from("cin_total").select("amount_pence"),
   ])
 
   const charityPence = (charityResult.data ?? []).reduce(

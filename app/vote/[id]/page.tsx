@@ -5,7 +5,6 @@ import { getSupabase } from '@/lib/supabase'
 import { getSupabaseServerAuth } from '@/lib/supabase-server'
 import VoteForm from '@/components/VoteForm'
 import HaveYourSay from '@/components/HaveYourSay'
-import NewsFeed from '@/components/NewsFeed'
 import AskTheSpeaker from '@/components/AskTheSpeaker'
 
 type PollEntry = { name: string; pct: number }

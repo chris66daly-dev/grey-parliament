@@ -1,0 +1,3 @@
+ALTER TABLE questions ADD COLUMN IF NOT EXISTS youtube_url TEXT;
+ALTER TABLE questions ADD COLUMN IF NOT EXISTS poll_json JSONB;
+ALTER TABLE questions ADD COLUMN IF NOT EXISTS headlines_json JSONB;
