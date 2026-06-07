@@ -16,7 +16,7 @@ export default async function Nav() {
   return (
     <nav style={{ background: '#1a1814', padding: '14px 32px', display: 'flex', justifyContent: 'space-between', alignItems: 'center', position: 'sticky', top: 0, zIndex: 100 }}>
       <Link href="/" style={{ color: '#c9a84c', fontSize: '1.4rem', fontWeight: 900, textDecoration: 'none', fontFamily: 'var(--serif)' }}>
-        <img src="/grey-parliament-logo.png" alt="" style={{ width: '44px', height: 'auto', objectFit: 'contain', marginRight: '10px', verticalAlign: 'middle' }} />
+        <img src="/GMP-Logo.png" alt="" style={{ width: '44px', height: 'auto', objectFit: 'contain', marginRight: '10px', verticalAlign: 'middle' }} />
         Grey Parliament
       </Link>
 

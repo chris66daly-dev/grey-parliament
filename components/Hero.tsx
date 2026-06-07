@@ -7,7 +7,7 @@ export default function Hero() {
         <div style={{ maxWidth: 760, margin: '0 auto', position: 'relative', zIndex: 1 }}>
           <div style={{ display: 'flex', justifyContent: 'center', marginBottom: '28px' }}>
             <img
-              src="/grey-parliament-logo.png"
+              src="/GMP-Logo.png"
               alt="Grey Parliament Seal"
               style={{ width: '220px', height: 'auto', objectFit: 'contain' }}
             />
