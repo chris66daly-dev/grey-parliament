@@ -29,7 +29,7 @@ const labelStyle: React.CSSProperties = {
 
 export default function SignupForm() {
   const router = useRouter()
-  const [form, setForm] = useState({ name: '', email: '', password: '', postcode: '' })
+  const [form, setForm] = useState({ firstName: '', lastName: '', email: '', password: '', postcode: '' })
   const [error, setError] = useState<string | null>(null)
   const [loading, setLoading] = useState(false)
 
@@ -62,7 +62,12 @@ export default function SignupForm() {
     await fetch('/api/profile', {
       method: 'POST',
       headers: { 'Content-Type': 'application/json' },
-      body: JSON.stringify({ name: form.name.trim(), postcode: form.postcode.trim() }),
+      body: JSON.stringify({
+        name: `${form.firstName.trim()} ${form.lastName.trim()}`,
+        firstName: form.firstName.trim(),
+        lastName: form.lastName.trim(),
+        postcode: form.postcode.trim()
+      }),
     })
 
    
@@ -73,17 +78,31 @@ export default function SignupForm() {
 
   return (
     <form onSubmit={handleSubmit} style={{ display: 'flex', flexDirection: 'column', gap: 18 }}>
-      <div>
-        <label style={labelStyle}>Full name (first and last)</label>
-        <input
-          required
-          type="text"
-          value={form.name}
-          onChange={set('name')}
-          placeholder="e.g. Jane Smith"
-          autoComplete="name"
-          style={inputStyle}
-        />
+      <div style={{ display: 'flex', gap: 12 }}>
+        <div style={{ flex: 1 }}>
+          <label style={labelStyle}>First name</label>
+          <input
+            required
+            type="text"
+            value={form.firstName}
+            onChange={set('firstName')}
+            placeholder="Jane"
+            autoComplete="given-name"
+            style={inputStyle}
+          />
+        </div>
+        <div style={{ flex: 1 }}>
+          <label style={labelStyle}>Last name</label>
+          <input
+            required
+            type="text"
+            value={form.lastName}
+            onChange={set('lastName')}
+            placeholder="Smith"
+            autoComplete="family-name"
+            style={inputStyle}
+          />
+        </div>
       </div>
 
       <div>

@@ -10,13 +10,15 @@ export async function POST(req: NextRequest) {
     return NextResponse.json({ error: 'Unauthorized' }, { status: 401 })
   }
 
-  const { name, postcode } = await req.json() as { name: string; postcode: string }
+  const { name, firstName, lastName, postcode } = await req.json() as { name: string; firstName?: string; lastName?: string; postcode: string }
 
   const mpData = await lookupPostcode(postcode)
 
   const { error } = await supabase.from('profiles').upsert({
     id: user.id,
     name,
+    first_name: firstName ?? name.split(' ')[0],
+    last_name: lastName ?? name.split(' ').slice(1).join(' '),
     email: user.email,
     postcode: mpData?.postcode ?? postcode.trim().toUpperCase(),
     constituency: mpData?.constituency ?? null,
