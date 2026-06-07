@@ -42,7 +42,7 @@ export default function ActionBar() {
   const [open, setOpen] = useState<string | null>(null);
   const [pulse, setPulse] = useState(0);
   const [announced, setAnnounced] = useState(false);
-  const [isMobile, setIsMobile] = useState(false);
+  const [isMobile, setIsMobile] = useState(true);
 
   useEffect(() => {
     const check = () => setIsMobile(window.innerWidth < 768);
