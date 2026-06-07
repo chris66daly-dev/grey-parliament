@@ -9,7 +9,7 @@ export default function Hero() {
             <img
               src="/grey-parliament-logo.png"
               alt="Grey Parliament Seal"
-              style={{ width: '160px', height: '160px', objectFit: 'contain' }}
+              style={{ width: '220px', height: 'auto', objectFit: 'contain' }}
             />
           </div>
           <div style={{ fontSize: 11, color: '#c9a84c', letterSpacing: '0.2em', textTransform: 'uppercase', marginBottom: '20px', fontWeight: 600 }}>The Independent Political Voice of the Over 50s</div>
