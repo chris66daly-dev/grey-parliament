@@ -30,6 +30,7 @@ export async function POST(req: NextRequest) {
           type: 'text',
         },
       ],
+      allow_promotion_codes: true,
       metadata: {
         platform: 'grey_parliament',
         price_id: priceId,
