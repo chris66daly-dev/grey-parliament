@@ -6,7 +6,7 @@ const STEPS = [
 
 export default function HowItWorks() {
   return (
-    <section style={{ background: '#fff', padding: '4rem 1.5rem', borderBottom: '1px solid #c8c4bc' }}>
+    <section id="how-it-works" style={{ background: '#fff', padding: '4rem 1.5rem', borderBottom: '1px solid #c8c4bc' }}>
       <div style={{ maxWidth: 760, margin: '0 auto' }}>
         <div style={{ textAlign: 'center', marginBottom: 40 }}>
           <div style={{ fontSize: 11, color: '#888074', letterSpacing: '0.12em', textTransform: 'uppercase', marginBottom: 8, fontFamily: 'var(--sans)' }}>The process</div>
