@@ -1,0 +1,22 @@
+{
+  "name": "Grey Parliament",
+  "short_name": "Grey Parliament",
+  "description": "The independent political voice of the over 50s",
+  "start_url": "/",
+  "display": "standalone",
+  "background_color": "#1a1814",
+  "theme_color": "#c9a84c",
+  "orientation": "portrait",
+  "icons": [
+    {
+      "src": "/GMP-Logo.png",
+      "sizes": "192x192",
+      "type": "image/png"
+    },
+    {
+      "src": "/GMP-Logo.png",
+      "sizes": "512x512",
+      "type": "image/png"
+    }
+  ]
+}

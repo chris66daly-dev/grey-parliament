@@ -6,6 +6,13 @@ import SpeakerButton from '@/components/SpeakerButton'
 export const metadata: Metadata = {
   title: 'Grey Parliament — Your Voice Matters',
   description: 'The independent political voice of the over 50s. Your vote goes to your MP every Friday. Verify you are 50 or over.',
+  manifest: '/manifest.json',
+  themeColor: '#c9a84c',
+  appleWebApp: {
+    capable: true,
+    statusBarStyle: 'black-translucent',
+    title: 'Grey Parliament',
+  },
   openGraph: {
     title: 'Grey Parliament — Your Voice Matters',
     description: 'Led by us. For us. And our kids.',
