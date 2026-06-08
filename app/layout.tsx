@@ -1,6 +1,7 @@
 import type { Metadata } from 'next'
 import './globals.css'
 import ActionBar from '@/components/ActionBar'
+import SpeakerButton from '@/components/SpeakerButton'
 
 export const metadata: Metadata = {
   title: 'Grey Parliament — Your Voice Matters',
@@ -21,6 +22,7 @@ export default function RootLayout({ children }: { children: React.ReactNode }) 
         <div style={{background:"#c9a84c",padding:"8px 24px",textAlign:"center",fontFamily:"sans-serif",fontSize:13,color:"#1a1814",fontWeight:600}}>We are not perfect. Neither is democracy. But we are both worth fighting for. 🏛️</div>
         <ActionBar />
         {children}
+        <SpeakerButton />
       </body>
     </html>
   )
