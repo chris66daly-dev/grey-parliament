@@ -1,6 +1,8 @@
 import { redirect } from "next/navigation"
 import { getSupabase } from "@/lib/supabase"
 
+export const dynamic = 'force-dynamic'
+
 export default async function VotePage() {
   const client = getSupabase()
   if (!client) redirect("/")
