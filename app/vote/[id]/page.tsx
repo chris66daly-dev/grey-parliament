@@ -67,15 +67,21 @@ export default async function VoteQuestionPage({ params }: { params: { id: strin
 
   return (
     <main style={{ fontFamily: 'var(--sans)', minHeight: '100vh', background: '#f5f0e8' }}>
-      <nav style={{ background: '#1a1814', padding: '16px 40px', display: 'flex', justifyContent: 'space-between', alignItems: 'center' }}>
-        <Link href="/" style={{ color: '#c9a84c', fontSize: '1.4rem', fontWeight: 900, textDecoration: 'none', fontFamily: 'var(--serif)', display: 'flex', alignItems: 'center' }}>
-          <img src="/grey-parliament-logo.png" alt="" style={{ height: '36px', width: '36px', objectFit: 'contain', marginRight: '10px' }} />
+      <nav style={{ background: '#1a1814', padding: '12px 32px', display: 'flex', justifyContent: 'space-between', alignItems: 'center', position: 'sticky', top: 0, zIndex: 100, borderBottom: '1px solid #2a2520' }}>
+        <Link href="/" style={{ display: 'flex', alignItems: 'center', gap: '10px', color: '#c9a84c', fontSize: '1.3rem', fontWeight: 900, textDecoration: 'none', fontFamily: 'var(--serif)' }}>
+          <img src="/GMP-Logo.png" alt="" style={{ height: '36px', width: 'auto', objectFit: 'contain', mixBlendMode: 'lighten' }} />
           Grey Parliament
         </Link>
-        <div style={{ display: 'flex', gap: '24px', alignItems: 'center' }}>
-          <Link href="/" style={{ color: '#f5f0e8', fontSize: '0.9rem', textDecoration: 'none' }}>Home</Link>
-          <Link href="/auth/signup" style={{ color: '#c9a84c', fontSize: '0.9rem', textDecoration: 'none', fontWeight: 600 }}>Join</Link>
-          <Link href="/auth/login" style={{ color: '#f5f0e8', fontSize: '0.9rem', textDecoration: 'none' }}>Sign in</Link>
+        <div style={{ display: 'flex', gap: '8px', alignItems: 'center' }}>
+          <Link href="/" style={{ color: '#c8c4bc', fontSize: 13, textDecoration: 'none', padding: '6px 10px', borderRadius: '4px' }}>
+            ← Home
+          </Link>
+          <Link href="/auth/signup" style={{ background: '#c9a84c', color: '#1a1814', padding: '8px 16px', borderRadius: 6, fontSize: 13, fontWeight: 700, textDecoration: 'none' }}>
+            Join Free
+          </Link>
+          <Link href="/auth/login" style={{ color: '#c8c4bc', fontSize: 13, textDecoration: 'none', padding: '6px 10px' }}>
+            Sign In
+          </Link>
         </div>
       </nav>
       <section style={{ padding: '60px 24px', maxWidth: 680, margin: '0 auto' }}>
