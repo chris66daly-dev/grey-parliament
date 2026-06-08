@@ -159,7 +159,7 @@ export default function HaveYourSay({ questionId, userTier, userId }: Props) {
           onClick={() => window.scrollTo({ top: 0, behavior: 'smooth' })}
           style={{ background: '#c9a84c', color: '#1a1814', padding: '12px 28px', borderRadius: '6px', fontWeight: 700, border: 'none', cursor: 'pointer', fontSize: '0.95rem', fontFamily: 'var(--sans)' }}
         >
-          ↑ Cast my verdict
+          ↑ Cast my vital vote
         </button>
       </div>
     </section>

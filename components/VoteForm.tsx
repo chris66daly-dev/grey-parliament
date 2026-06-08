@@ -64,14 +64,14 @@ export default function VoteForm({ questionId }: { questionId: string }) {
       {vote && !loading && (
         <div style={{ background: "#f0ece4", border: "1px solid #c9a84c", borderRadius: 8, padding: "14px 16px", marginBottom: 12, fontFamily: "var(--sans)" }}>
           <p style={{ fontSize: 14, color: "#1a1814", fontWeight: 600, margin: "0 0 10px" }}>
-            Want to see what others are saying first?
+            Have Your Say and Listen First — before you cast your vital vote that goes to your MP and Minister.
           </p>
           <div style={{ display: "flex", gap: 10, flexWrap: "wrap" }}>
             <button
               onClick={() => document.getElementById("have-your-say")?.scrollIntoView({ behavior: "smooth" })}
               style={{ padding: "10px 18px", background: "#1a1814", color: "#c9a84c", border: "none", borderRadius: 6, fontSize: 13, fontWeight: 700, cursor: "pointer", fontFamily: "var(--sans)" }}
             >
-              Read the debate ↓
+              Have Your Say ↓
             </button>
             <button
               onClick={handleVote}
