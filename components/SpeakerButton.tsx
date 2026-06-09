@@ -45,7 +45,7 @@ export default function SpeakerButton() {
 
       <div style={{
         position: 'fixed',
-        bottom: '90px',
+        top: '120px',
         right: '20px',
         zIndex: 999,
         display: 'flex',
