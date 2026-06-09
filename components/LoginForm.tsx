@@ -85,9 +85,14 @@ export default function LoginForm() {
       </div>
 
       {error && (
-        <p style={{ color: '#e74c3c', fontSize: 14, fontFamily: 'var(--sans)', margin: 0 }}>
-          {error}
-        </p>
+        <div>
+          <p style={{ color: '#e74c3c', fontSize: 14, fontFamily: 'var(--sans)', margin: '0 0 8px' }}>
+            {error}
+          </p>
+          <Link href="/auth/forgot-password" style={{ color: '#c9a84c', fontSize: 13, fontFamily: 'var(--sans)', textDecoration: 'none' }}>
+            Forgot your password? Reset it here →
+          </Link>
+        </div>
       )}
 
       <button
@@ -112,6 +117,8 @@ export default function LoginForm() {
       <p style={{ fontSize: 13, color: '#888074', textAlign: 'center', fontFamily: 'var(--sans)', margin: 0 }}>
         Not a member yet?{' '}
         <Link href="/auth/signup" style={{ color: '#c9a84c', textDecoration: 'none' }}>Join free</Link>
+        {' · '}
+        <Link href="/auth/forgot-password" style={{ color: '#888074', textDecoration: 'none' }}>Forgot password?</Link>
       </p>
     </form>
   )
