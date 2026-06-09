@@ -1,3 +1,5 @@
+export const dynamic = 'force-dynamic'
+
 import { Suspense } from 'react'
 import Nav from '@/components/Nav'
 import NewsFeed from '@/components/NewsFeed'
